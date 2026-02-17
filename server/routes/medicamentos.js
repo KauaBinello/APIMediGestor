@@ -7,23 +7,21 @@ router.get("/", async (req, res) => {
   try {
     let { nome, ordem, offset, limit } = req.query;
 
-
     nome = nome ? '%' + nome + '%' : '%';
-    ordem = ordem && ordem.toLowerCase() === "asc" ? "ASC" : "DESC";
+    // Mudei para ASC por padrão para a paginação não inverter a lógica visual
+    ordem = ordem && ordem.toLowerCase() === "desc" ? "DESC" : "ASC"; 
     offset = parseInt(offset) || 0;
-    limit = parseInt(limit) || 100;
+    limit = parseInt(limit) || 16; // Deixe 16 aqui também para alinhar com o front
 
-    console.log(nome, ordem, offset, limit);
     const query = `
-    SELECT * FROM medicamentos
-    where nome ilike  $1
-    ORDER BY id ${ordem}
-    LIMIT $2
-    OFFSET $3
+      SELECT * FROM medicamentos
+      WHERE nome ILIKE $1
+      ORDER BY id ${ordem}
+      LIMIT $2
+      OFFSET $3
     `;
 
     const result = await pool.query(query, [nome, limit, offset]);
-
     res.json(result.rows);
 
   } catch (err) {

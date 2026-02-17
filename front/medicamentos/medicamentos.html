@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Medicamentos</title>
+    <link rel="stylesheet" href="medicamentos.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="medicamentos.js" defer></script>
+</head>
+
+<body>
+
+    <h1 id="table">Gerenciamento de Medicamentos</h1>
+
+    <div class="toolbar-container">
+        <input id="campo-pesquisa" placeholder="🔎 Buscar medicamento pelo nome...">
+
+        <div class="button-group">
+            <button id="btnPaginacaoMenos" title="Anterior">
+                <i data-lucide="chevron-left"></i>
+            </button>
+            <button id="btnPaginacao" title="Próximo">
+                <i data-lucide="chevron-right"></i>
+            </button>
+            <button id="cadastrar-novo" onclick="novoMedicamento()">
+                <i data-lucide="plus-circle"></i> Novo Medicamento
+            </button>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome / Embalagem</th>
+                <th>Saldo</th>
+                <th>Validade</th>
+                <th style="text-align: center;">Ações</th>
+            </tr>
+        </thead>
+        <tbody id="corpo-tabela">
+        </tbody>
+    </table>
+
+    <div id="modal-container">
+        <div id="caixa-modal">
+            <h2 id="tituloModal">Medicamento</h2>
+
+            <label for="editNome">Nome do Medicamento</label>
+            <input id="editNome" placeholder="Ex: Paracetamol">
+
+            <label for="editEmbalagem">Embalagem</label>
+            <input id="editEmbalagem" placeholder="Ex: 500mg (20 comprimidos)">
+
+            <label for="editSaldo">Quantidade em Estoque</label>
+            <input id="editSaldo" type="number" placeholder="0">
+
+            <label for="editValidade">Data de Validade</label>
+            <input id="editValidade" type="date">
+
+            <div class="modal-footer">
+                <button type="button" onclick="salvarEdicao()" id="btn-salvar">Salvar</button>
+                <button type="button" onclick="limparCampos()" id="btn-limpar"
+                    style="background-color: var(--color-text-base); opacity: 0.7;">Limpar</button>
+                <button type="button" onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-aviso-container" class="modal-overlay">
+        <div id="caixa-aviso" class="modal-content">
+            <div id="aviso-icone"></div>
+            <h3 id="aviso-titulo">Atenção</h3>
+            <p id="aviso-texto">Mensagem de exemplo.</p>
+            <div class="modal-footer" id="aviso-footer">
+                <button id="btn-aviso-ok">OK</button>
+                <button id="btn-aviso-cancelar" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
