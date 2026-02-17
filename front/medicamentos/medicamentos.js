@@ -1,5 +1,5 @@
 const API = 'http://localhost:3000/medicamentos';
-const limit = 16;
+const limit = 18;
 let offset = 0;
 let listaMedicamentos = [];
 let idEmEdicao = null;

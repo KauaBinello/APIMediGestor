@@ -1,7 +1,7 @@
 :root {
-  /* Tipografia */
+  /* Tipografia - Meio termo ajustado */
   --font-family-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Tahoma, Geneva, Verdana, sans-serif;
-  --font-size-base: 14px;
+  --font-size-base: 16px; /* Meio termo entre o 14 e o 16 */
   --line-height-base: 1.6;
 
   /* Cores */
@@ -71,7 +71,7 @@ button {
   justify-content: center;
   gap: 8px;
   padding: 10px 20px;
-  font-size: 14px;
+  font-size: 15px; /* Ajustado */
   font-weight: 600;
   color: var(--color-text-light);
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
@@ -114,7 +114,7 @@ button:disabled {
 #campo-pesquisa {
   flex-grow: 1;
   padding: 11px 14px;
-  font-size: 14px;
+  font-size: 15px; /* Ajustado */
   background-color: var(--bg-surface);
   border: 1.5px solid var(--border-color);
   border-radius: var(--border-radius-medium);
@@ -133,9 +133,8 @@ button:disabled {
 /* ================================================= */
 
 #table {
-  /* Este é o seu H1/Título */
   margin-bottom: 14px;
-  font-size: 20px;
+  font-size: 22px; /* Ajustado */
   font-weight: 700;
   color: var(--color-text-heading);
 }
@@ -155,7 +154,7 @@ thead {
 
 thead th {
   padding: 16px;
-  font-size: 12px;
+  font-size: 16px; /* Ajustado */
   color: var(--color-text-light);
   text-transform: uppercase;
   letter-spacing: 0.7px;
@@ -164,34 +163,63 @@ thead th {
 
 th,
 td {
-  padding: 12px 16px;
-  font-size: 13px;
+  padding: 4px 16px; /* Reduzi de 14px para 8px no topo/baixo */
+  font-size: 16px; 
   border-bottom: 1px solid var(--border-table);
   transition: var(--transition-smooth);
+  vertical-align: middle; /* Garante que o texto fique centralizado na linha menor */
+}
+
+thead th {
+  padding: 10px 16px; /* Cabeçalho levemente maior que o corpo, mas ainda compacto */
+  font-size: 13px;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  text-align: left;
 }
 
 tbody tr:hover {
   background-color: var(--bg-row-hover);
 }
 
-/* Estilo para ícones Lucide dentro da tabela */
-td i[data-lucide] {
-  width: 18px;
-  height: 18px;
-  stroke: var(--color-primary);
-  transition: var(--transition-smooth);
+/* ================================================= */
+/* ============= AJUSTE DAS AÇÕES (TABELA) ========= */
+/* ================================================= */
+
+/* Centraliza o conteúdo da célula de ações sem virar flex */
+td:last-child {
+  text-align: center;
+  white-space: nowrap; /* Impede que os botões pulem linha */
+  padding: 4px 16px;   /* Padding vertical mínimo */
 }
 
+/* Estilo específico para os botões que ficam dentro da tabela */
 td button {
-  background: transparent;
-  box-shadow: none;
-  padding: 5px;
+  display: inline-flex !important; /* Deixa um ao lado do outro */
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 10px !important;    /* Padding minúsculo para não esticar a linha */
+  margin: 0 8px !important;   /* Aumente aqui (o 8px) para afastar os botões */
+  height: auto !important;
+  min-height: 0 !important;
+  width: auto !important;
   color: var(--color-primary);
+  transform: none !important;
+}
+
+/* Ajuste do ícone para ser o menor elemento possível */
+td button i, 
+td button svg {
+  width: 25 px !important;
+  height: 25px !important;
+  display: block;
 }
 
 td button:hover {
-  background: rgba(74, 118, 170, 0.1);
-  transform: scale(1.1);
+  background: rgba(74, 118, 170, 0.1) !important;
+  transform: scale(1.1) !important;
+  box-shadow: none !important;
 }
 
 /* ================================================= */
@@ -207,7 +235,6 @@ td button:hover {
   background-color: rgba(46, 69, 96, 0.6);
   backdrop-filter: blur(4px);
   display: none;
-  /* Alterado via JS para flex */
   align-items: center;
   justify-content: center;
   z-index: 9999;
@@ -225,6 +252,7 @@ td button:hover {
 
 #caixa-modal h2 {
   margin-bottom: 20px;
+  font-size: 22px; /* Ajustado */
   color: var(--color-text-heading);
   border-bottom: 2px solid var(--bg-body-start);
   padding-bottom: 10px;
@@ -235,7 +263,7 @@ td button:hover {
   margin-bottom: 6px;
   font-weight: 600;
   color: var(--color-primary-dark);
-  font-size: 13px;
+  font-size: 14px; /* Ajustado */
 }
 
 #caixa-modal input {
@@ -245,6 +273,7 @@ td button:hover {
   border: 1.5px solid var(--border-color);
   border-radius: var(--border-radius-medium);
   font-family: inherit;
+  font-size: 15px; /* Ajustado */
   background-color: var(--bg-body-start);
   transition: var(--transition-smooth);
 }
@@ -256,32 +285,24 @@ td button:hover {
   box-shadow: 0 0 0 4px var(--focus-ring-color);
 }
 
-/* Container de botões do modal - Simetria Total */
 .modal-footer {
   display: flex;
   gap: 12px;
-  /* Espaço entre os botões */
   margin-top: 20px;
   width: 100%;
-  /* Garante que o container use toda a largura */
 }
 
 .modal-footer button {
   flex: 1;
-  /* O segredo: faz cada botão crescer igualmente e ocupar metade do espaço */
   padding: 12px;
-  /* Aumenta um pouco a altura para ficar mais elegante */
+  font-size: 15px; /* Ajustado */
   white-space: nowrap;
-  /* Evita que o texto quebre em duas linhas */
 }
 
-/* Botão de Cancelar com estilo secundário */
 .btn-cancelar {
   background: #e2e8f0 !important;
-  /* Força o tom cinza */
   color: #475569 !important;
   box-shadow: none !important;
-  /* Remove a sombra forte para dar menos destaque que o "Salvar" */
 }
 
 .btn-cancelar:hover {
@@ -294,7 +315,6 @@ td button:hover {
     opacity: 0;
     transform: translateY(-20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -309,12 +329,9 @@ td button:hover {
   .toolbar-container {
     flex-direction: column;
   }
-
   thead {
     display: none;
   }
-
-  /* Opcional: transformar tabela em blocos no mobile */
 }
 
 .modal-overlay {
@@ -349,11 +366,12 @@ td button:hover {
 
 #aviso-titulo {
   margin-bottom: 10px;
-  color: var(--color-text-heading);
+  font-size: 18px; /* Ajustado */
+  color: var(--text-heading);
 }
 
 #aviso-texto {
   margin-bottom: 20px;
   color: var(--color-text-base);
-  font-size: 14px;
+  font-size: 15px; /* Ajustado */
 }
