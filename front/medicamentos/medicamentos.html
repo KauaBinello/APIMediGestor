@@ -7,7 +7,7 @@
     <title>Gestão de Medicamentos</title>
     <link rel="stylesheet" href="medicamentos.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="medicamentos.js" defer></script>
+    <script src="medicamentos.js" type="module" defer></script>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
             <button id="btnPaginacao" title="Próximo">
                 <i data-lucide="chevron-right"></i>
             </button>
-            <button id="cadastrar-novo" onclick="novoMedicamento()">
+            <button id="cadastrar-novo">
                 <i data-lucide="plus-circle"></i> Novo Medicamento
             </button>
         </div>
@@ -60,10 +60,9 @@
             <input id="editValidade" type="date">
 
             <div class="modal-footer">
-                <button type="button" onclick="salvarEdicao()" id="btn-salvar">Salvar</button>
-                <button type="button" onclick="limparCampos()" id="btn-limpar"
-                    style="background-color: var(--color-text-base); opacity: 0.7;">Limpar</button>
-                <button type="button" onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
+                <button id="btn-salvar">Salvar</button>
+                <button id="btn-limpar" style="background-color: var(--color-text-base); opacity: 0.7;">Limpar</button>
+                <button class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
             </div>
         </div>
     </div>

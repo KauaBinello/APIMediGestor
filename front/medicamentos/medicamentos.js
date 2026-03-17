@@ -1,5 +1,5 @@
 const API = 'http://localhost:3000/medicamentos';
-const limit = 18;
+const limit = 12;
 let offset = 0;
 let listaMedicamentos = [];
 let idEmEdicao = null;
@@ -8,10 +8,18 @@ const corpoTabela = document.getElementById('corpo-tabela');
 const campoBusca = document.getElementById('campo-pesquisa');
 const modal = document.getElementById('modal-container');
 
-window.addEventListener("DOMContentLoaded", () => {
+// --- INICIALIZAÇÃO ---
+document.addEventListener("DOMContentLoaded", () => {
+    // Vincular botões fixos do HTML
     document.getElementById("btnPaginacao").addEventListener("click", () => atualizarMedicamentos("mais"));
     document.getElementById("btnPaginacaoMenos").addEventListener("click", () => atualizarMedicamentos("menos"));
+    document.getElementById("cadastrar-novo").addEventListener("click", novoMedicamento);
+    document.getElementById("btn-salvar").addEventListener("click", salvarEdicao);
+    document.getElementById("btn-limpar").addEventListener("click", limparCampos);
+    document.getElementById("btn-fechar-modal").addEventListener("click", fecharModal);
+    
     campoBusca.addEventListener("input", filtrarMedicamentos);
+    
     atualizarMedicamentos("inicio");
 });
 
@@ -46,33 +54,37 @@ async function atualizarMedicamentos(acao = "") {
     } catch (err) { console.error(err); }
 }
 
-// --- CORREÇÃO DA TABELA (DASHBOARD) ---
+// --- TABELA (USANDO DOM PARA EVITAR WINDOW) ---
 function renderizarTabela(lista) {
     corpoTabela.innerHTML = "";
     lista.forEach(m => {
         const tr = document.createElement("tr");
-        
-        // Se m.validade já for "YYYY-MM-DD", o split garante que pegamos só a data
+
         const dataLimpa = m.validade ? m.validade.split('T')[0] : null;
         let dataExibicao = '---';
-
         if (dataLimpa) {
             const [ano, mes, dia] = dataLimpa.split('-');
-            dataExibicao = `${dia}/${mes}/${ano}`; // Formata MANUALMENTE para BR
+            dataExibicao = `${dia}/${mes}/${ano}`;
         }
-        
+
+        // Criamos o conteúdo da linha
         tr.innerHTML = `
             <td><strong>${m.nome}</strong><br><small style="color: #666">${m.embalagem}</small></td>
             <td>${m.saldo} unidades</td>
             <td>${dataExibicao}</td>
             <td style="text-align: center;">
-                <button onclick="modalEdicao(${m.id})" style="background:none; color:var(--color-primary); border:none; cursor:pointer;">
+                <button class="btn-editar" style="background:none; color:var(--color-primary); border:none; cursor:pointer;">
                     <i data-lucide="edit-3"></i>
                 </button>
-                <button onclick="deletar(${m.id})" style="background:none; color:#d9534f; border:none; cursor:pointer;">
+                <button class="btn-deletar" style="background:none; color:#d9534f; border:none; cursor:pointer;">
                     <i data-lucide="trash-2"></i>
                 </button>
             </td>`;
+
+        // Agora vinculamos os eventos aos botões recém-criados antes de adicionar na tabela
+        tr.querySelector('.btn-editar').addEventListener('click', () => modalEdicao(m.id));
+        tr.querySelector('.btn-deletar').addEventListener('click', () => deletar(m.id));
+
         corpoTabela.appendChild(tr);
     });
     lucide.createIcons();
@@ -86,52 +98,41 @@ function filtrarMedicamentos() {
 }
 
 // --- MODAL ---
-window.novoMedicamento = function() {
+function novoMedicamento() {
     idEmEdicao = null;
     document.getElementById("tituloModal").innerText = "Novo Medicamento";
     limparCampos();
     modal.style.display = "flex";
 }
 
-// --- CORREÇÃO DO MODAL (EDIÇÃO) ---
-window.modalEdicao = async function(id) {
+async function modalEdicao(id) {
     idEmEdicao = id;
     document.getElementById("tituloModal").innerText = "Editar Medicamento";
     try {
         const res = await fetch(`${API}/${id}`);
         const m = await res.json();
-        
+
         document.getElementById("editNome").value = m.nome;
         document.getElementById("editEmbalagem").value = m.embalagem;
         document.getElementById("editSaldo").value = m.saldo;
 
         if (m.validade) {
-            // O input type="date" SÓ aceita YYYY-MM-DD. 
-            // Como seu banco já manda assim, vamos garantir que não tenha lixo
             const dataISO = m.validade.split('T')[0];
             document.getElementById("editValidade").value = dataISO;
         }
-        
+
         modal.style.display = "flex";
     } catch (e) { exibirDialogo("Erro", "Erro ao carregar dados."); }
 }
 
-window.salvarEdicao = async function() {
+async function salvarEdicao() {
     const nome = document.getElementById("editNome").value;
     const embalagem = document.getElementById("editEmbalagem").value;
-    const saldo = parseInt(document.getElementById("editSaldo").value);
+    const saldo = document.getElementById("editSaldo").value;
     const validade = document.getElementById("editValidade").value;
 
-    if(!nome || !embalagem || isNaN(saldo) || !validade) {
-        await exibirDialogo("Atenção", "Preencha todos os campos corretamente.");
-        return;
-    }
-
-    // Validação de data retroativa (considerando fuso local)
-    const dataVal = new Date(validade + 'T00:00:00');
-    const hoje = new Date(); hoje.setHours(0,0,0,0);
-    if (dataVal < hoje) {
-        await exibirDialogo("Data Inválida", "A validade não pode ser uma data passada.");
+    if (!nome.trim() || !embalagem.trim() || isNaN(saldo) || saldo < 0 || !validade) {
+        await exibirDialogo("Erro", "Verifique se todos os campos estão preenchidos corretamente.");
         return;
     }
 
@@ -153,19 +154,28 @@ window.salvarEdicao = async function() {
     } catch (e) { exibirDialogo("Erro", "Erro ao conectar com o servidor."); }
 }
 
-window.deletar = async function(id) {
-    const confirma = await exibirDialogo("Confirmar", "Deseja excluir este item?", "confirm");
+async function deletar(id) {
+    const confirma = await exibirDialogo("Confirmar", "Deseja excluir este medicamento?", "confirm");
     if (confirma) {
-        await fetch(`${API}/${id}`, { method: "DELETE" });
-        atualizarMedicamentos();
+        try {
+            const resposta = await fetch(`${API}/${id}`, { method: "DELETE" });
+            if (resposta.ok) {
+                exibirDialogo("Sucesso", "Medicamento removido com sucesso!");
+                atualizarMedicamentos();
+            } else {
+                exibirDialogo("Não é possível excluir", "Este medicamento possui vínculos no sistema.");
+            }
+        } catch (erro) {
+            exibirDialogo("Erro", "Erro ao conectar ao servidor.");
+        }
     }
 }
 
-window.fecharModal = () => modal.style.display = "none";
+function fecharModal() { modal.style.display = "none"; }
 
-window.limparCampos = function() {
+function limparCampos() {
     document.getElementById("editNome").value = "";
     document.getElementById("editEmbalagem").value = "";
     document.getElementById("editSaldo").value = "";
     document.getElementById("editValidade").value = "";
-}   
+}
