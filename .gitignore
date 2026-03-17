@@ -1,0 +1,14 @@
+# Ignora a pasta de dependências do Node
+node_modules/
+
+# Ignora arquivos de configuração local e segredos
+.env
+
+# Arquivos de log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Pastas de build (caso existam no front)
+dist/
+build/
