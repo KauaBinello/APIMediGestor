@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Usuários</title>
+    <link rel="stylesheet" href="usuarios.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="usuarios.js" type="module" defer></script>
+</head>
+
+<body>
+
+    <h1 id="table">Gerenciamento de Usuários</h1>
+
+    <div class="toolbar-container">
+        <input id="campo-pesquisa" placeholder="🔎 Buscar por nome ou email...">
+
+        <div class="button-group">
+            <button id="btnPaginacaoMenos" title="Anterior">
+                <i data-lucide="chevron-left"></i>
+            </button>
+            <button id="btnPaginacao" title="Próximo">
+                <i data-lucide="chevron-right"></i>
+            </button>
+            <button id="cadastrar-novo">
+                <i data-lucide="plus-circle"></i> Novo Usuário
+            </button>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Login</th>
+                <th>Perfil</th>
+                <th style="text-align: center;">Ações</th>
+            </tr>
+        </thead>
+        <tbody id="corpo-tabela">
+            </tbody>
+    </table>
+
+    <div id="modal-container">
+        <div id="caixa-modal">
+            <h2 id="tituloModal">Novo Usuário</h2>
+
+            <div class="modal-scroll-content">
+                <label for="editNome">Nome Completo</label>
+                <input id="editNome" placeholder="Ex: Kaua Vargas">
+
+                <label for="editEmail">Email</label>
+                <input id="editEmail" type="email" placeholder="Ex: kaua@gmail.com">
+
+                <label for="editLogin">Login (3 caracteres)</label>
+                <input id="editLogin" maxlength="3" placeholder="Ex: kvb">
+
+                <label for="editSenha">Senha</label>
+                <input id="editSenha" type="password" placeholder="Digite a senha">
+
+                <label for="editPerfil">Perfil</label>
+                <select id="editPerfil">
+                    <option value="Usuário">Usuário</option>
+                    <option value="Administrador">Administrador</option>
+                </select>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-salvar">Salvar</button>
+                <button id="btn-limpar">Limpar</button>
+                <button class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-aviso-container" class="modal-overlay">
+        <div id="caixa-aviso" class="modal-content">
+            <div id="aviso-icone"></div>
+            <h3 id="aviso-titulo">Atenção</h3>
+            <p id="aviso-texto"></p>
+            <div class="modal-footer" id="aviso-footer">
+                <button id="btn-aviso-ok">OK</button>
+                <button id="btn-aviso-cancelar" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
