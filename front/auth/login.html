@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Gestão</title>
+    <link rel="stylesheet" href="login.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div id="login-container">
+        <div id="caixa-login">
+            <div class="login-header">
+                <i data-lucide="shield-check" class="logo-icon"></i>
+                <h2>Acesso ao Sistema</h2>
+                <p>Entre com suas credenciais para continuar</p>
+            </div>
+
+            <form id="form-login">
+                <div class="input-group">
+                    <label for="usuario">Usuário ou E-mail</label>
+                    <div class="input-with-icon">
+                        <i data-lucide="user"></i>
+                        <input type="text" id="usuario" placeholder="Digite seu login" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <div class="input-with-icon">
+                        <i data-lucide="lock"></i>
+                        <input type="password" id="senha" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-entrar">
+                    <i data-lucide="log-in"></i> Entrar no Sistema
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p>Esqueceu a senha? Contate o Administrador.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

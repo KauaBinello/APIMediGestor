@@ -75,7 +75,7 @@ function renderizarTabela(lista) {
 function filtrarUsuarios() {
     const termo = campoBusca.value;
     offset = 0;
-    fetch(`${API}?q=${termo}&limit=${limit}&offset=${offset}`)
+    fetch(`${API}?nome=${termo}&limit=${limit}&offset=${offset}`)
         .then(res => res.json())
         .then(dados => renderizarTabela(dados));
 }
