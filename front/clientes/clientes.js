@@ -146,7 +146,6 @@ async function modalEdicao(id) {
     }
 }
 
-// --- SALVAR ---
 async function salvarEdicao() {
     const cliente = {
         nome: document.getElementById("editNome").value.trim(),
@@ -164,10 +163,24 @@ async function salvarEdicao() {
         return exibirDialogo("Campo Obrigatório", "O nome e o CPF são obrigatórios.");
     }
 
-    const metodo = idEmEdicao ? "PUT" : "POST";
-    const url = idEmEdicao ? `${API}/${idEmEdicao}` : API;
-
     try {
+        // Busca por CPF (Lidando com a falha de filtro da API)
+        const resCheck = await fetch(`${API}?cpf=${cliente.cpf}`);
+        const dadosDB = await resCheck.json();
+
+        // Procura manualmente no array retornado para ter certeza do conflito
+        const conflitoCpf = dadosDB.find(c => String(c.cpf) === String(cliente.cpf));
+
+        if (conflitoCpf) {
+            // Se for novo OU se for edição de um ID diferente do que tem o CPF
+            if (!idEmEdicao || (idEmEdicao && conflitoCpf.id != idEmEdicao)) {
+                return exibirDialogo("Atenção", `O CPF ${cliente.cpf} já pertence a ${conflitoCpf.nome}.`);
+            }
+        }
+
+        const metodo = idEmEdicao ? "PUT" : "POST";
+        const url = idEmEdicao ? `${API}/${idEmEdicao}` : API;
+
         const res = await fetch(url, {
             method: metodo,
             headers: { "Content-Type": "application/json" },
@@ -181,11 +194,11 @@ async function salvarEdicao() {
         } else {
             throw new Error();
         }
-    } catch {
+    } catch (erro) {
+        console.error("Erro ao salvar cliente:", erro);
         exibirDialogo("Erro", "Erro ao conectar com o servidor.");
     }
 }
-
 // --- DELETAR ---
 async function deletar(id) {
     const confirma = await exibirDialogo("Confirmar", "Deseja realmente excluir este cliente?", "confirm");

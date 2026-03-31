@@ -71,7 +71,7 @@ button {
   justify-content: center;
   gap: 8px;
   padding: 10px 20px;
-  font-size: 15px; /* Ajustado */
+  font-size: 15px; 
   font-weight: 600;
   color: var(--color-text-light);
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
@@ -114,7 +114,7 @@ button:disabled {
 #campo-pesquisa {
   flex-grow: 1;
   padding: 11px 14px;
-  font-size: 15px; /* Ajustado */
+  font-size: 15px; 
   background-color: var(--bg-surface);
   border: 1.5px solid var(--border-color);
   border-radius: var(--border-radius-medium);
@@ -134,7 +134,7 @@ button:disabled {
 
 #table {
   margin-bottom: 14px;
-  font-size: 22px; /* Ajustado */
+  font-size: 22px; 
   font-weight: 700;
   color: var(--color-text-heading);
 }
@@ -153,25 +153,7 @@ thead {
 }
 
 thead th {
-  padding: 16px;
-  font-size: 16px; /* Ajustado */
-  color: var(--color-text-light);
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-  text-align: left;
-}
-
-th,
-td {
-  padding: 4px 16px; /* Reduzi de 14px para 8px no topo/baixo */
-  font-size: 16px; 
-  border-bottom: 1px solid var(--border-table);
-  transition: var(--transition-smooth);
-  vertical-align: middle; /* Garante que o texto fique centralizado na linha menor */
-}
-
-thead th {
-  padding: 10px 16px; /* Cabeçalho levemente maior que o corpo, mas ainda compacto */
+  padding: 10px 16px;
   font-size: 13px;
   color: var(--color-text-light);
   text-transform: uppercase;
@@ -179,28 +161,30 @@ thead th {
   text-align: left;
 }
 
+td {
+  padding: 4px 16px; 
+  font-size: 16px; 
+  border-bottom: 1px solid var(--border-table);
+  transition: var(--transition-smooth);
+  vertical-align: middle;
+}
+
 tbody tr:hover {
   background-color: var(--bg-row-hover);
 }
 
-/* ================================================= */
-/* ============= AJUSTE DAS AÇÕES (TABELA) ========= */
-/* ================================================= */
-
-/* Centraliza o conteúdo da célula de ações sem virar flex */
 td:last-child {
   text-align: center;
-  white-space: nowrap; /* Impede que os botões pulem linha */
-  padding: 4px 16px;   /* Padding vertical mínimo */
+  white-space: nowrap; 
+  padding: 4px 16px;
 }
 
-/* Estilo específico para os botões que ficam dentro da tabela */
 td button {
-  display: inline-flex !important; /* Deixa um ao lado do outro */
+  display: inline-flex !important; 
   background: transparent !important;
   box-shadow: none !important;
-  padding: 10px !important;    /* Padding minúsculo para não esticar a linha */
-  margin: 0 8px !important;   /* Aumente aqui (o 8px) para afastar os botões */
+  padding: 10px !important;
+  margin: 0 8px !important;
   height: auto !important;
   min-height: 0 !important;
   width: auto !important;
@@ -208,10 +192,9 @@ td button {
   transform: none !important;
 }
 
-/* Ajuste do ícone para ser o menor elemento possível */
 td button i, 
 td button svg {
-  width: 25 px !important;
+  width: 25px !important;
   height: 25px !important;
   display: block;
 }
@@ -223,7 +206,7 @@ td button:hover {
 }
 
 /* ================================================= */
-/* ============= MODAL ============================= */
+/* ============= MODAL (AJUSTADO) ================== */
 /* ================================================= */
 
 #modal-container {
@@ -252,7 +235,7 @@ td button:hover {
 
 #caixa-modal h2 {
   margin-bottom: 20px;
-  font-size: 22px; /* Ajustado */
+  font-size: 22px; 
   color: var(--color-text-heading);
   border-bottom: 2px solid var(--bg-body-start);
   padding-bottom: 10px;
@@ -263,22 +246,36 @@ td button:hover {
   margin-bottom: 6px;
   font-weight: 600;
   color: var(--color-primary-dark);
-  font-size: 14px; /* Ajustado */
+  font-size: 14px;
 }
 
-#caixa-modal input {
+/* Estilo unificado para inputs e selects */
+#caixa-modal input,
+#caixa-modal select {
   width: 100%;
   padding: 12px;
   margin-bottom: 18px;
   border: 1.5px solid var(--border-color);
   border-radius: var(--border-radius-medium);
   font-family: inherit;
-  font-size: 15px; /* Ajustado */
+  font-size: 15px; 
   background-color: var(--bg-body-start);
   transition: var(--transition-smooth);
 }
 
-#caixa-modal input:focus {
+/* Seta customizada para o select */
+#caixa-modal select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a76aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+#caixa-modal input:focus,
+#caixa-modal select:focus {
   outline: none;
   border-color: var(--color-primary);
   background-color: var(--bg-surface);
@@ -295,7 +292,7 @@ td button:hover {
 .modal-footer button {
   flex: 1;
   padding: 12px;
-  font-size: 15px; /* Ajustado */
+  font-size: 15px;
   white-space: nowrap;
 }
 
@@ -311,27 +308,17 @@ td button:hover {
 }
 
 @keyframes modalEntrada {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ================================================= */
-/* ============= RESPONSIVIDADE ==================== */
+/* ============= RESTO DO CSS (IGUAL) ============== */
 /* ================================================= */
 
 @media (max-width: 768px) {
-  .toolbar-container {
-    flex-direction: column;
-  }
-  thead {
-    display: none;
-  }
+  .toolbar-container { flex-direction: column; }
+  thead { display: none; }
 }
 
 .modal-overlay {
@@ -359,19 +346,6 @@ td button:hover {
   animation: modalEntrada 0.3s ease-out;
 }
 
-#aviso-icone {
-  margin-bottom: 15px;
-  color: var(--color-primary);
-}
-
-#aviso-titulo {
-  margin-bottom: 10px;
-  font-size: 18px; /* Ajustado */
-  color: var(--text-heading);
-}
-
-#aviso-texto {
-  margin-bottom: 20px;
-  color: var(--color-text-base);
-  font-size: 15px; /* Ajustado */
-}
+#aviso-icone { margin-bottom: 15px; color: var(--color-primary); }
+#aviso-titulo { margin-bottom: 10px; font-size: 18px; color: var(--text-heading); }
+#aviso-texto { margin-bottom: 20px; color: var(--color-text-base); font-size: 15px; }

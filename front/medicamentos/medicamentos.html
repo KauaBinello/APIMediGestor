@@ -8,6 +8,27 @@
     <link rel="stylesheet" href="medicamentos.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="medicamentos.js" type="module" defer></script>
+
+    <style>
+        /* Esconde o corpo da página imediatamente ao carregar */
+        body {
+            display: none;
+        }
+    </style>
+
+    <script>
+        // Checagem ultra rápida antes de renderizar o resto
+        if (localStorage.getItem('usuarioLogado') !== 'true') {
+            window.location.href = '../login/login.html';
+        } else {
+            // Se estiver logado, mostra a página
+            document.documentElement.style.display = 'block';
+            document.addEventListener("DOMContentLoaded", () => {
+                document.body.style.display = 'block';
+            });
+        }
+    </script>
+
 </head>
 
 <body>
@@ -15,6 +36,9 @@
     <h1 id="table">Gerenciamento de Medicamentos</h1>
 
     <div class="toolbar-container">
+        <button id="btn-sair" style="background: #d9534f; margin-left: auto;">
+            <i data-lucide="log-out"></i> Sair
+        </button>
         <input id="campo-pesquisa" placeholder="🔎 Buscar medicamento pelo nome...">
 
         <div class="button-group">
@@ -39,8 +63,7 @@
                 <th style="text-align: center;">Ações</th>
             </tr>
         </thead>
-        <tbody id="corpo-tabela">
-        </tbody>
+        <tbody id="corpo-tabela"></tbody>
     </table>
 
     <div id="modal-container">
@@ -50,10 +73,40 @@
             <label for="editNome">Nome do Medicamento</label>
             <input id="editNome" placeholder="Ex: Paracetamol">
 
-            <label for="editEmbalagem">Embalagem</label>
-            <input id="editEmbalagem" placeholder="Ex: 500mg (20 comprimidos)">
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 2;">
+                    <label for="editConcentracao">Dosagem</label>
+                    <input id="editConcentracao" placeholder="Ex: 500">
+                </div>
+                <div style="flex: 1;">
+                    <label for="editUnidadeMedida">Unidade</label>
+                    <select id="editUnidadeMedida">
+                        <option value="mg">mg</option>
+                        <option value="g">g</option>
+                        <option value="ml">ml</option>
+                        <option value="mcg">mcg</option>
+                    </select>
+                </div>
+            </div>
 
-            <label for="editSaldo">Quantidade em Estoque</label>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label for="editQtdEmbalagem">Qtd na Embalagem</label>
+                    <input id="editQtdEmbalagem" type="number" placeholder="Ex: 20">
+                </div>
+                <div style="flex: 1;">
+                    <label for="editTipoUnidade">Tipo</label>
+                    <select id="editTipoUnidade">
+                        <option value="Comprimido(s)">Comprimido(s)</option>
+                        <option value="Cápsula(s)">Cápsula(s)</option>
+                        <option value="Frasco(s)">Frasco(s)</option>
+                        <option value="Gota(s)">Gota(s)</option>
+                        <option value="Pomada">Pomada</option>
+                    </select>
+                </div>
+            </div>
+
+            <label for="editSaldo">Quantidade em Estoque (Total)</label>
             <input id="editSaldo" type="number" placeholder="0">
 
             <label for="editValidade">Data de Validade</label>
@@ -71,8 +124,8 @@
         <div id="caixa-aviso" class="modal-content">
             <div id="aviso-icone"></div>
             <h3 id="aviso-titulo">Atenção</h3>
-            <p id="aviso-texto">Mensagem de exemplo.</p>
-            <div class="modal-footer" id="aviso-footer">
+            <p id="aviso-texto"></p>
+            <div class="modal-footer">
                 <button id="btn-aviso-ok">OK</button>
                 <button id="btn-aviso-cancelar" class="btn-cancelar">Cancelar</button>
             </div>

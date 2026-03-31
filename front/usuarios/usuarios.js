@@ -116,14 +116,39 @@ async function salvarEdicao() {
         perfil: document.getElementById("editPerfil").value
     };
 
-    if (!usuario.nome || !usuario.login) {
-        return exibirDialogo("Atenção", "Nome e Login são obrigatórios.");
+    if (!usuario.nome || !usuario.login || !usuario.email) {
+        return exibirDialogo("Atenção", "Nome, Email e Login são obrigatórios.");
     }
 
-    const metodo = idEmEdicao ? "PUT" : "POST";
-    const url = idEmEdicao ? `${API}/${idEmEdicao}` : API;
-
     try {
+        // Busca simultânea para performance
+        const [resLogin, resEmail] = await Promise.all([
+            fetch(`${API}?login=${usuario.login}`),
+            fetch(`${API}?email=${usuario.email}`)
+        ]);
+
+        const dadosLogin = await resLogin.json();
+        const dadosEmail = await resEmail.json();
+
+        // Validação manual (Double Check)
+        const conflitoLogin = dadosLogin.find(u => u.login === usuario.login);
+        const conflitoEmail = dadosEmail.find(u => u.email === usuario.email);
+
+        if (conflitoLogin) {
+            if (!idEmEdicao || (idEmEdicao && conflitoLogin.id != idEmEdicao)) {
+                return exibirDialogo("Atenção", `O login "${usuario.login}" já está em uso.`);
+            }
+        }
+
+        if (conflitoEmail) {
+            if (!idEmEdicao || (idEmEdicao && conflitoEmail.id != idEmEdicao)) {
+                return exibirDialogo("Atenção", `O email "${usuario.email}" já está cadastrado.`);
+            }
+        }
+
+        const metodo = idEmEdicao ? "PUT" : "POST";
+        const url = idEmEdicao ? `${API}/${idEmEdicao}` : API;
+
         const res = await fetch(url, {
             method: metodo,
             headers: { "Content-Type": "application/json" },
@@ -134,9 +159,12 @@ async function salvarEdicao() {
             fecharModal();
             atualizarUsuarios();
             exibirDialogo("Sucesso", "Usuário salvo com sucesso!");
+        } else {
+            throw new Error();
         }
-    } catch {
-        exibirDialogo("Erro", "Erro ao conectar com o servidor.");
+    } catch (erro) {
+        console.error("Erro ao salvar usuário:", erro);
+        exibirDialogo("Erro", "Erro na comunicação com o servidor.");
     }
 }
 
@@ -148,6 +176,8 @@ async function deletar(id) {
             if (res.ok) {
                 atualizarUsuarios();
                 exibirDialogo("Sucesso", "Usuário removido.");
+            } else {
+                exibirDialogo("Não é possível excluir", "Este usuário possui vinculos no sistema.");
             }
         } catch (erro) {
             console.error(erro);
