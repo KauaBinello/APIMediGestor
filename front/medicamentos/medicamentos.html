@@ -19,7 +19,7 @@
     <script>
         // Checagem ultra rápida antes de renderizar o resto
         if (localStorage.getItem('usuarioLogado') !== 'true') {
-            window.location.href = '../login/login.html';
+            window.location.href = '../auth/login.html';
         } else {
             // Se estiver logado, mostra a página
             document.documentElement.style.display = 'block';

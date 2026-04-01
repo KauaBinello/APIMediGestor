@@ -1,6 +1,6 @@
 // --- TRAVA DE SEGURANÇA REFORÇADA ---
 if (localStorage.getItem('usuarioLogado') !== 'true') {
-    window.location.href = '../login/login.html';
+    window.location.href = '../auth/login.html';
     // Para a execução de todo o resto do script
     throw new Error("Acesso não autorizado");
 }

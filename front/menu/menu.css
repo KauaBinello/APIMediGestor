@@ -1,0 +1,94 @@
+:root {
+    --bg-light: #f0f6ff;
+    --primary-blue: #4a76aa;
+    --dark-blue: #345c8c;
+    --text-color: #2e4560;
+    --white: #ffffff;
+    --shadow: 0 4px 15px rgba(74, 118, 170, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body {
+    background-color: var(--bg-light);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+}
+
+#menu-container {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Card de Usuário superior */
+.user-card {
+    background: var(--white);
+    padding: 15px 30px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    display: inline-block;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.user-card p { font-size: 14px; margin: 2px 0; color: var(--primary-blue); }
+
+#btn-logout {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Seção da Logo */
+.logo-section { margin-bottom: 40px; }
+
+.logo-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+}
+
+.main-icon { width: 80px; height: 80px; color: #44a0e3; }
+.badge-icon { 
+    position: absolute; bottom: 0; right: 0; 
+    width: 30px; height: 30px; color: #2ecc71; fill: white;
+}
+
+.logo-section h1 { font-size: 32px; color: var(--dark-blue); font-weight: 700; }
+.logo-section p { font-size: 14px; opacity: 0.8; }
+
+/* Navegação */
+.menu-nav { display: flex; flex-direction: column; gap: 12px; }
+
+.menu-nav button {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.menu-nav button:hover {
+    background-color: var(--dark-blue);
+    transform: translateY(-2px);
+}
+
+.btn-disabled { opacity: 0.8; cursor: not-allowed !important; }

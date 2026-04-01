@@ -8,6 +8,27 @@
     <link rel="stylesheet" href="usuarios.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="usuarios.js" type="module" defer></script>
+
+    <style>
+        /* Esconde o corpo da página imediatamente ao carregar */
+        body {
+            display: none;
+        }
+    </style>
+
+    <script>
+        // Checagem ultra rápida antes de renderizar o resto
+        if (localStorage.getItem('usuarioLogado') !== 'true') {
+            window.location.href = '../auth/login.html';
+        } else {
+            // Se estiver logado, mostra a página
+            document.documentElement.style.display = 'block';
+            document.addEventListener("DOMContentLoaded", () => {
+                document.body.style.display = 'block';
+            });
+        }
+    </script>
+
 </head>
 
 <body>
@@ -42,7 +63,7 @@
             </tr>
         </thead>
         <tbody id="corpo-tabela">
-            </tbody>
+        </tbody>
     </table>
 
     <div id="modal-container">
@@ -89,4 +110,5 @@
         </div>
     </div>
 </body>
+
 </html>

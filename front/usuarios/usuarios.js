@@ -1,3 +1,14 @@
+// --- TRAVA DE SEGURANÇA REFORÇADA ---
+if (localStorage.getItem('usuarioLogado') !== 'true') {
+    window.location.href = '../auth/login.html';
+    // Para a execução de todo o resto do script
+    throw new Error("Acesso não autorizado");
+}
+
+if (localStorage.getItem('perfilUsuario') !== 'Administrador') {
+    window.location.href = '../menu/menu.html'; // Chuta de volta pro menu
+}
+
 const API = 'http://localhost:3000/usuarios'; // Ajustado para a tabela usuários
 const limit = 12;
 let offset = 0;
@@ -16,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btn-fechar-modal").addEventListener("click", fecharModal);
 
     campoBusca.addEventListener("input", filtrarUsuarios);
-    
+
     atualizarUsuarios("inicio");
 });
 
@@ -28,18 +39,18 @@ async function atualizarUsuarios(acao = "") {
     try {
         const resposta = await fetch(`${API}?limit=${limit}&offset=${offset}&_sort=id&_order=asc`);
         const dados = await resposta.json();
-        
-        if (dados.length === 0 && acao === "mais") { 
-            offset -= limit; 
-            return; 
+
+        if (dados.length === 0 && acao === "mais") {
+            offset -= limit;
+            return;
         }
 
         renderizarTabela(dados);
-        
+
         document.getElementById("btnPaginacaoMenos").disabled = offset === 0;
         document.getElementById("btnPaginacao").disabled = dados.length < limit;
-    } catch (erro) { 
-        console.error("Erro ao buscar usuários:", erro); 
+    } catch (erro) {
+        console.error("Erro ao buscar usuários:", erro);
     }
 }
 
@@ -68,7 +79,7 @@ function renderizarTabela(lista) {
 
         corpoTabela.appendChild(tr);
     });
-    
+
     if (window.lucide) lucide.createIcons();
 }
 
@@ -90,7 +101,7 @@ function novoUsuario() {
 async function modalEdicao(id) {
     idEmEdicao = id;
     document.getElementById("tituloModal").innerText = "Editar Usuário";
-    
+
     try {
         const res = await fetch(`${API}/${id}`);
         const u = await res.json();

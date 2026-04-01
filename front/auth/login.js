@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = true;
         btn.innerHTML = 'Autenticando...';
 
-try {
+        try {
             // 1. Buscamos todos os usuários (sem filtros na URL para evitar erro do servidor)
             const response = await fetch(`http://localhost:3000/usuarios`);
             const listaUsuarios = await response.json();
 
             // 2. Fazemos a conferência MANUALMENTE aqui no JS
             // Isso garante que se o login/senha estiverem errados, ele NÃO entra
-            const usuarioValido = listaUsuarios.find(u => 
+            const usuarioValido = listaUsuarios.find(u =>
                 u.login === usuario && u.senha === senha
             );
 
@@ -27,8 +27,9 @@ try {
                 // SUCESSO
                 localStorage.setItem('usuarioLogado', 'true');
                 localStorage.setItem('nomeUsuario', usuarioValido.nome);
-                
-                window.location.href = '../medicamentos/medicamentos.html';
+                localStorage.setItem('perfilUsuario', usuarioValido.perfil);
+
+                window.location.href = '../menu/menu.html';
             } else {
                 // ERRO: Aqui ele vai cair se o login/senha não existirem ou estiverem errados
                 alert('Usuário ou senha incorretos!');

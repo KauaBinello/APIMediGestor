@@ -1,3 +1,10 @@
+// --- TRAVA DE SEGURANÇA REFORÇADA ---
+if (localStorage.getItem('usuarioLogado') !== 'true') {
+    window.location.href = '../auth/login.html';
+    // Para a execução de todo o resto do script
+    throw new Error("Acesso não autorizado");
+}
+
 const API = 'http://localhost:3000/clientes';
 const limit = 12;
 let offset = 0;
