@@ -1,145 +1,173 @@
-/* Configurações de Cores e Estilo Global */
-:root {
-    --primary: #4a76aa;
-    --primary-dark: #345c8c;
-    --text-main: #2a3b4c;
-    --bg-start: #f0f6ff;
-    --bg-end: #dce9f9;
-    --white: #ffffff;
-    --border: #c0d7eb;
-    --shadow: 0 15px 35px rgba(74, 118, 170, 0.15);
-}
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    min-height: 100vh;
-    background: radial-gradient(circle at center, var(--bg-start) 0%, var(--bg-end) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* Card de Login - Proporcional e Elegante */
+/* Fundo */
+#login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #dce8f5 0%, #e8f0fb 50%, #d5e5f7 100%);
+  padding: 2rem;
+}
+
+/* Card */
 #caixa-login {
-    background-color: var(--white);
-    padding: 50px 60px; 
-    border-radius: 20px;
-    width: 100%;
-    max-width: 500px; /* Largura boa sem ser exagerada */
-    box-shadow: var(--shadow);
-    animation: entradaSuave 0.6s ease-out;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem 2.25rem;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 4px 24px rgba(24, 60, 110, 0.10), 0 1px 4px rgba(24, 60, 110, 0.06);
 }
 
+/* Header */
 .login-header {
-    margin-bottom: 35px;
-    text-align: center;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-/* Ícone equilibrado */
-.logo-icon {
-    width: 55px; 
-    height: 55px;
-    color: var(--primary);
-    margin-bottom: 15px;
+.login-header .logo-icon {
+  width: 40px;
+  height: 40px;
+  color: #2b5fa8;
+  background: #e8f0fb;
+  border-radius: 14px;
+  padding: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .login-header h2 {
-    font-size: 26px; /* Tamanho de título padrão desktop */
-    color: #2e4560;
-    font-weight: 700;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a2e4a;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
 }
 
 .login-header p {
-    font-size: 15px;
-    margin-top: 5px;
-    opacity: 0.6;
+  font-size: 13.5px;
+  color: #6b849e;
+  font-weight: 400;
 }
 
-/* Formulário */
+/* Grupos de input */
 .input-group {
-    margin-bottom: 22px;
+  margin-bottom: 1.1rem;
 }
 
 .input-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    font-size: 14px; /* Label não precisa ser gigante */
-    color: var(--primary-dark);
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #3a5272;
+  margin-bottom: 6px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
 }
 
 .input-with-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-.input-with-icon i {
-    position: absolute;
-    left: 15px;
-    width: 20px;
-    height: 20px;
-    color: var(--primary);
-    opacity: 0.7;
+.input-with-icon svg {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: #94afca;
+  pointer-events: none;
+  flex-shrink: 0;
 }
 
-/* Input com altura confortável, mas sem ser "balão" */
 .input-with-icon input {
-    width: 100%;
-    padding: 14px 15px 14px 45px; 
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    background-color: #f9fcff;
-    transition: all 0.3s ease;
-    font-size: 16px;
+  width: 100%;
+  padding: 10px 12px 10px 38px;
+  border: 1.5px solid #d4e2ef;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #1a2e4a;
+  background: #f7fafd;
+  outline: none;
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+}
+
+.input-with-icon input::placeholder {
+  color: #aac0d4;
+  font-size: 13.5px;
 }
 
 .input-with-icon input:focus {
-    outline: none;
-    border-color: var(--primary);
-    background-color: var(--white);
-    box-shadow: 0 0 0 4px rgba(74, 118, 170, 0.1);
+  border-color: #3b7dd8;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(59, 125, 216, 0.12);
 }
 
-/* Botão firme e bem encaixado */
+.input-with-icon input:hover:not(:focus) {
+  border-color: #b0c8e0;
+}
+
+/* Botão */
 #btn-entrar {
-    width: 100%;
-    padding: 14px; 
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    margin-top: 10px;
+  width: 100%;
+  padding: 11.5px;
+  background: #2b5fa8;
+  color: #fff;
+  border: none;
+  border-radius: 11px;
+  font-size: 14.5px;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1.5rem;
+  letter-spacing: 0.1px;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(43, 95, 168, 0.25);
+}
+
+#btn-entrar svg {
+  width: 16px;
+  height: 16px;
 }
 
 #btn-entrar:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(52, 92, 140, 0.2);
+  background: #1e4e8f;
+  box-shadow: 0 4px 14px rgba(43, 95, 168, 0.32);
 }
 
+#btn-entrar:active {
+  transform: scale(0.985);
+  box-shadow: 0 1px 4px rgba(43, 95, 168, 0.2);
+}
+
+/* Footer */
 .login-footer {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 13px;
-    opacity: 0.5
+  text-align: center;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e4edf6;
 }
 
-@keyframes entradaSuave {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+.login-footer p {
+  font-size: 13px;
+  color: #8ba5bf;
 }

@@ -32,35 +32,36 @@
     <div id="menu-container">
         <div class="user-card">
             <p>Usuário: <span id="nome-usuario-display">---</span></p>
-            <p>Perfil: <strong>Administrador</strong></p>
+            <p>Perfil: <strong id="perfil-exibicao">---</strong></p>
             <button id="btn-logout" title="Sair do Sistema">
                 <i data-lucide="log-out"></i> Sair
             </button>
         </div>
 
-        <div class="logo-section">
-            <div class="logo-wrapper">
-                <i data-lucide="plus" class="main-icon"></i>
-                <i data-lucide="check-circle-2" class="badge-icon"></i>
+        <div class="menu-card">
+            <div class="logo-section">
+                <div class="logo-wrapper">
+                    <i data-lucide="plus" class="main-icon"></i>
+                    <i data-lucide="check-circle-2" class="badge-icon"></i>
+                </div>
+                <h1>MediGestor</h1>
+                <p>Distribuição e controle de medicamentos</p>
             </div>
-            <h1>MediGestor</h1>
-            <p>Distribuição e controle de medicamentos</p>
+            <nav class="menu-nav">
+                <button onclick="location.href='../medicamentos/medicamentos.html'">
+                    Cadastro de medicamentos
+                </button>
+                <button onclick="location.href='../clientes/clientes.html'">
+                    Cadastro de clientes
+                </button>
+                <button id="btn-usuarios" style="display: none;" onclick="location.href='../usuarios/usuarios.html'">
+                    Cadastro de Usuários
+                </button>
+                <button class="btn-disabled">
+                    Distribuição de medicamentos
+                </button>
+            </nav>
         </div>
-
-        <nav class="menu-nav">
-            <button onclick="location.href='../medicamentos/medicamentos.html'">
-                Cadastro de medicamentos
-            </button>
-            <button onclick="location.href='../clientes/clientes.html'">
-                Cadastro de clientes
-            </button>
-            <button id="btn-usuarios" style="display: none;" onclick="location.href='../usuarios/usuarios.html'">
-                Cadastro de Usuários
-            </button>
-            <button class="btn-disabled">
-                Distribuição de medicamentos
-            </button>
-        </nav>
     </div>
 
     <script src="menu.js"></script>
