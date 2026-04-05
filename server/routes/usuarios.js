@@ -37,9 +37,9 @@ router.get("/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const query = "SELECT id, nome, email, login, senha, perfil FROM usuarios WHERE id = $1";
-    
+
     const result = await pool.query(query, [id]);
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Usuário não encontrado" });
     }
@@ -107,9 +107,29 @@ router.delete("/:id", async (req, res) => {
       return res.status(404).json({ error: "Usuário não encontrado" });
     }
 
-    res.status(204).send(); 
+    res.status(204).send();
   } catch (err) {
     res.status(500).json({ error: "Erro ao deletar usuário" });
+  }
+});
+
+// LOGIN
+router.post("/login", async (req, res) => {
+  try {
+    const { login, senha } = req.body;
+    console.log("Recebido:", { login, senha });
+    const result = await pool.query(
+      "SELECT id, nome, perfil FROM usuarios WHERE login = $1 AND senha = $2",
+      [login, senha]
+    );
+    console.log("Resultado:", result.rows);
+    if (result.rows.length === 0) {
+      return res.status(401).json({ sucesso: false });
+    }
+    res.json({ sucesso: true, nome: result.rows[0].nome, perfil: result.rows[0].perfil });
+  } catch (err) {
+    console.error("ERRO NA ROTA LOGIN:", err.message); // <- adiciona isso
+    res.status(500).json({ sucesso: false, error: err.message });
   }
 });
 

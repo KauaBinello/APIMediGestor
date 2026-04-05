@@ -171,3 +171,87 @@ body {
   font-size: 13px;
   color: #8ba5bf;
 }
+
+/* Modal de Aviso */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 46, 74, 0.55);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 28px 24px;
+  border-radius: 14px;
+  max-width: 340px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(43, 95, 168, 0.18);
+  animation: modalEntrada 0.25s ease-out;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+#aviso-icone {
+  margin-bottom: 14px;
+  color: #2b5fa8;
+}
+
+#aviso-titulo {
+  margin-bottom: 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a2e4a;
+}
+
+#aviso-texto {
+  margin-bottom: 20px;
+  color: #6b849e;
+  font-size: 14px;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.modal-footer button {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #2b5fa8;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.modal-footer button:hover {
+  background: #1e4e8f;
+}
+
+.btn-cancelar {
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  border: 1.5px solid #e2e8f0 !important;
+}
+
+.btn-cancelar:hover {
+  background: #e2e8f0 !important;
+}
+
+@keyframes modalEntrada {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

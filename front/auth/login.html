@@ -6,11 +6,8 @@
     <title>Login - Sistema de Gestão</title>
     <link rel="stylesheet" href="login.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="login.js"></script>
-</body>
 </head>
 <body>
-
     <div id="login-container">
         <div id="caixa-login">
             <div class="login-header">
@@ -18,7 +15,6 @@
                 <h2>Acesso ao Sistema</h2>
                 <p>Entre com suas credenciais para continuar</p>
             </div>
-
             <form id="form-login">
                 <div class="input-group">
                     <label for="usuario">Usuário ou E-mail</label>
@@ -27,7 +23,6 @@
                         <input type="text" id="usuario" placeholder="Digite seu login" required>
                     </div>
                 </div>
-
                 <div class="input-group">
                     <label for="senha">Senha</label>
                     <div class="input-with-icon">
@@ -35,20 +30,29 @@
                         <input type="password" id="senha" placeholder="••••••••" required>
                     </div>
                 </div>
-
                 <button type="submit" id="btn-entrar">
                     <i data-lucide="log-in"></i> Entrar no Sistema
                 </button>
             </form>
-
             <div class="login-footer">
                 <p>Esqueceu a senha? Contate o Administrador.</p>
             </div>
         </div>
     </div>
 
-    <script>
-        lucide.createIcons();
-    </script>
+    <div id="modal-aviso-container" class="modal-overlay">
+        <div id="caixa-aviso" class="modal-content">
+            <div id="aviso-icone"></div>
+            <h3 id="aviso-titulo">Atenção</h3>
+            <p id="aviso-texto"></p>
+            <div class="modal-footer">
+                <button id="btn-aviso-ok">OK</button>
+                <button id="btn-aviso-cancelar" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

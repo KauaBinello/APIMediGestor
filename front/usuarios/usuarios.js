@@ -19,6 +19,17 @@ const campoBusca = document.getElementById('campo-pesquisa');
 const modal = document.getElementById('modal-container');
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("btn-sair").addEventListener("click", () => {
+        localStorage.removeItem('usuarioLogado');
+        localStorage.removeItem('nomeUsuario');
+        window.location.href = '../auth/login.html';
+    });
+    const nomeUsuario = localStorage.getItem('nomeUsuario') || 'Usuário';
+    document.getElementById('user-nome').textContent = nomeUsuario;
+
+    // Iniciais do avatar
+    const iniciais = nomeUsuario.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+    document.getElementById('user-initials').textContent = iniciais;
     document.getElementById("btnPaginacao").addEventListener("click", () => atualizarUsuarios("mais"));
     document.getElementById("btnPaginacaoMenos").addEventListener("click", () => atualizarUsuarios("menos"));
     document.getElementById("cadastrar-novo").addEventListener("click", novoUsuario);

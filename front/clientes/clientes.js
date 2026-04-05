@@ -17,6 +17,17 @@ const modal = document.getElementById('modal-container');
 
 // --- INICIALIZAÇÃO ---
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("btn-sair").addEventListener("click", () => {
+        localStorage.removeItem('usuarioLogado');
+        localStorage.removeItem('nomeUsuario');
+        window.location.href = '../auth/login.html';
+    });
+    const nomeUsuario = localStorage.getItem('nomeUsuario') || 'Usuário';
+    document.getElementById('user-nome').textContent = nomeUsuario;
+
+    // Iniciais do avatar
+    const iniciais = nomeUsuario.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+    document.getElementById('user-initials').textContent = iniciais;
     // Vincular botões fixos
     document.getElementById("btnPaginacao").addEventListener("click", () => atualizarClientes("mais"));
     document.getElementById("btnPaginacaoMenos").addEventListener("click", () => atualizarClientes("menos"));
@@ -26,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btn-fechar-modal").addEventListener("click", fecharModal);
 
     campoBusca.addEventListener("input", filtrarClientes);
-    
+
     atualizarClientes("inicio");
 });
 
@@ -53,19 +64,19 @@ async function atualizarClientes(acao = "") {
     try {
         const resposta = await fetch(`${API}?limit=${limit}&offset=${offset}`);
         const dados = await resposta.json();
-        
-        if (dados.length === 0 && acao === "mais") { 
-            offset -= limit; 
-            return; 
+
+        if (dados.length === 0 && acao === "mais") {
+            offset -= limit;
+            return;
         }
 
         listaClientes = dados;
         renderizarTabela(dados);
-        
+
         document.getElementById("btnPaginacaoMenos").disabled = offset === 0;
         document.getElementById("btnPaginacao").disabled = dados.length < limit;
-    } catch (erro) { 
-        console.error("Erro ao buscar clientes:", erro); 
+    } catch (erro) {
+        console.error("Erro ao buscar clientes:", erro);
     }
 }
 
@@ -103,7 +114,7 @@ function renderizarTabela(lista) {
 
         corpoTabela.appendChild(tr);
     });
-    
+
     if (window.lucide) lucide.createIcons();
 }
 
@@ -128,7 +139,7 @@ function novoCliente() {
 async function modalEdicao(id) {
     idEmEdicao = id;
     document.getElementById("tituloModal").innerText = "Editar Cliente";
-    
+
     try {
         const res = await fetch(`${API}/${id}`);
         if (!res.ok) throw new Error();
@@ -231,8 +242,8 @@ async function deletar(id) {
 function fecharModal() { modal.style.display = "none"; }
 
 function limparCampos() {
-    const campos = ["editNome", "editCpf", "editTelefone", "editNascimento", 
-                    "editEndereco", "editNumero", "editBairro", "editCidade", "editUf"];
+    const campos = ["editNome", "editCpf", "editTelefone", "editNascimento",
+        "editEndereco", "editNumero", "editBairro", "editCidade", "editUf"];
     campos.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = "";
