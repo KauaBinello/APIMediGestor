@@ -120,7 +120,7 @@ async function modalEdicao(id) {
         document.getElementById("editNome").value = u.nome || "";
         document.getElementById("editEmail").value = u.email || "";
         document.getElementById("editLogin").value = u.login || "";
-        document.getElementById("editSenha").value = u.senha || "";
+        document.getElementById("editSenha").value = ""; // nunca exibe o hash
         document.getElementById("editPerfil").value = u.perfil || "Usuário";
 
         modal.style.display = "flex";
