@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('usuarioLogado', 'true');
                 localStorage.setItem('nomeUsuario', dados.nome);
                 localStorage.setItem('perfilUsuario', dados.perfil);
+
                 window.location.href = '../menu/menu.html';
             } else {
                 exibirDialogo("Falha no Login", "Login ou senha incorretos. Tente novamente.");

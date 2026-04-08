@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
     limit = parseInt(limit) || 16;
 
     const query = `
-      SELECT id, nome, email, login, senha, perfil
+      SELECT id, nome, email, login, perfil
       FROM usuarios
       WHERE nome ILIKE $1
       ORDER BY id ASC
