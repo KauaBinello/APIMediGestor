@@ -6,32 +6,40 @@ const router = express.Router();
 // LISTAR CLIENTES (Com busca e paginação)
 router.get("/", async (req, res) => {
   try {
-    let { nome, offset, limit } = req.query;
-
-    nome = nome ? '%' + nome + '%' : '%';
+    let { nome, cpf, offset, limit } = req.query;
     offset = parseInt(offset) || 0;
     limit = parseInt(limit) || 16;
 
-    const query = `
-      SELECT 
-        id, nome, cpf, telefone, 
-        TO_CHAR(nascimento, 'YYYY-MM-DD') AS nascimento, 
-        endereco, numero_residencial, bairro, cidade, uf
-      FROM clientes
-      WHERE nome ILIKE $1
-      ORDER BY id ASC
-      LIMIT $2
-      OFFSET $3
-    `;
+    let query, params;
 
-    const result = await pool.query(query, [nome, limit, offset]);
+    if (cpf) {
+      const cpfLimpo = cpf.replace(/\D/g, '');
+      query = `
+  SELECT id, nome, cpf, telefone,
+    TO_CHAR(nascimento, 'YYYY-MM-DD') AS nascimento,
+    endereco, numero_residencial, bairro, cidade, uf
+  FROM clientes
+  WHERE cpf LIKE $1
+  ORDER BY id ASC LIMIT $2 OFFSET $3
+`;
+      params = [`${cpfLimpo}%`, limit, offset];
+    } else {
+      nome = nome ? '%' + nome + '%' : '%';
+      query = `
+        SELECT id, nome, cpf, telefone,
+          TO_CHAR(nascimento, 'YYYY-MM-DD') AS nascimento,
+          endereco, numero_residencial, bairro, cidade, uf
+        FROM clientes
+        WHERE nome ILIKE $1
+        ORDER BY id ASC LIMIT $2 OFFSET $3
+      `;
+      params = [nome, limit, offset];
+    }
+
+    const result = await pool.query(query, params);
     res.json(result.rows);
-
   } catch (err) {
-    res.status(500).json({
-      error: "Erro ao listar clientes",
-      detalhes: err.message
-    });
+    res.status(500).json({ error: "Erro ao listar clientes", detalhes: err.message });
   }
 });
 
@@ -48,9 +56,9 @@ router.get("/:id", async (req, res) => {
       WHERE id = $1
     `;
     const result = await pool.query(query, [id]);
-    
+
     if (result.rows.length === 0) {
-        return res.status(404).json({ error: "Cliente não encontrado" });
+      return res.status(404).json({ error: "Cliente não encontrado" });
     }
     res.json(result.rows[0]);
   } catch (err) {
@@ -61,14 +69,14 @@ router.get("/:id", async (req, res) => {
 // INSERIR NOVO CLIENTE
 router.post("/", async (req, res) => {
   try {
-    const { 
-        nome, cpf, telefone, nascimento, 
-        endereco, numero_residencial, bairro, cidade, uf 
+    const {
+      nome, cpf, telefone, nascimento,
+      endereco, numero_residencial, bairro, cidade, uf
     } = req.body;
 
     // Validação básica
     if (!nome || !cpf) {
-        return res.status(400).json({ error: "Nome e CPF são obrigatórios" });
+      return res.status(400).json({ error: "Nome e CPF são obrigatórios" });
     }
 
     const query = `
@@ -79,10 +87,10 @@ router.post("/", async (req, res) => {
     `;
 
     const result = await pool.query(query, [
-        nome, cpf, telefone, nascimento, 
-        endereco, numero_residencial, bairro, cidade, uf
+      nome, cpf, telefone, nascimento,
+      endereco, numero_residencial, bairro, cidade, uf
     ]);
-    
+
     res.status(201).json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: "Erro ao inserir cliente", detalhes: err.message });
@@ -93,9 +101,9 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { 
-        nome, cpf, telefone, nascimento, 
-        endereco, numero_residencial, bairro, cidade, uf 
+    const {
+      nome, cpf, telefone, nascimento,
+      endereco, numero_residencial, bairro, cidade, uf
     } = req.body;
 
     const query = `
@@ -108,13 +116,13 @@ router.put("/:id", async (req, res) => {
     `;
 
     const result = await pool.query(query, [
-        nome, cpf, telefone, nascimento, 
-        endereco, numero_residencial, bairro, cidade, uf, 
-        id
+      nome, cpf, telefone, nascimento,
+      endereco, numero_residencial, bairro, cidade, uf,
+      id
     ]);
 
     if (result.rows.length === 0) {
-        return res.status(404).json({ error: "Cliente não encontrado" });
+      return res.status(404).json({ error: "Cliente não encontrado" });
     }
 
     res.json(result.rows[0]);

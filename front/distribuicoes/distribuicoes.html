@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribuição de Medicamentos</title>
+    <link rel="stylesheet" href="distribuicoes.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            display: none;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('usuarioLogado') !== 'true') {
+            window.location.href = '../auth/login.html';
+        } else {
+            document.documentElement.style.display = 'block';
+            document.addEventListener("DOMContentLoaded", () => {
+                document.body.style.display = 'block';
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h1 id="table">Distribuição de Medicamentos</h1>
+        <div class="user-chip">
+            <div class="user-chip-avatar" id="user-initials"></div>
+            <span id="user-nome">Usuário</span>
+            <button id="btn-sair"><i data-lucide="log-out"></i> Sair</button>
+        </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar-container">
+        <input id="campo-pesquisa" placeholder="🔎 Buscar distribuição por cliente ou medicamento...">
+        <div class="button-group">
+            <button id="btnPaginacaoMenos" title="Anterior"><i data-lucide="chevron-left"></i></button>
+            <button id="btnPaginacao" title="Próximo"><i data-lucide="chevron-right"></i></button>
+            <button id="btn-nova-distribuicao"><i data-lucide="plus-circle"></i> Nova Distribuição</button>
+        </div>
+    </div>
+
+    <!-- TABELA DE HISTÓRICO -->
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Medicamentos</th>
+                <th>Data</th>
+                <th>Usuário</th>
+                <th style="text-align:center;">Ações</th>
+            </tr>
+        </thead>
+        <tbody id="corpo-tabela"></tbody>
+    </table>
+
+    <!-- PAINEL LATERAL: NOVA DISTRIBUIÇÃO -->
+    <div id="painel-overlay" class="painel-overlay">
+        <div class="painel-lateral">
+
+            <!-- Cabeçalho do painel -->
+            <div class="painel-header">
+                <h3><i data-lucide="package-plus"></i> Nova Distribuição</h3>
+                <button class="btn-fechar-painel" id="btn-fechar-painel">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <!-- PASSO 1: Selecionar Cliente -->
+            <div class="painel-section">
+                <label class="painel-label">Cliente</label>
+                <div class="search-input-wrap">
+                    <i data-lucide="search"></i>
+                    <input id="busca-cliente" placeholder="Buscar cliente pelo nome..." autocomplete="off">
+                </div>
+                <div id="lista-clientes" class="dropdown-lista"></div>
+                <div id="cliente-selecionado" class="selecionado-card" style="display:none;">
+                    <div class="selecionado-info">
+                        <i data-lucide="user-check"></i>
+                        <span id="cliente-nome-display"></span>
+                    </div>
+                    <button class="btn-limpar-selecao" id="btn-limpar-cliente">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PASSO 2: Adicionar Medicamentos -->
+            <div class="painel-section">
+                <label class="painel-label">Adicionar Medicamento</label>
+                <div class="search-input-wrap">
+                    <i data-lucide="search"></i>
+                    <input id="busca-medicamento" placeholder="Buscar medicamento..." autocomplete="off">
+                </div>
+                <div id="lista-medicamentos" class="dropdown-lista"></div>
+
+                <!-- Medicamento selecionado + quantidade -->
+                <div id="med-selecionado-wrap" style="display:none;">
+                    <div id="med-selecionado" class="selecionado-card">
+                        <div class="selecionado-info">
+                            <i data-lucide="pill"></i>
+                            <span id="med-nome-display"></span>
+                        </div>
+                        <button class="btn-limpar-selecao" id="btn-limpar-med">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+                    <div class="quantidade-wrap">
+                        <label class="painel-label">Quantidade</label>
+                        <div class="quantidade-controls">
+                            <button class="btn-qtd" id="btn-menos">−</button>
+                            <input id="input-quantidade" type="number" value="1" min="1">
+                            <button class="btn-qtd" id="btn-mais">+</button>
+                        </div>
+                        <span id="saldo-info" class="saldo-info"></span>
+                    </div>
+                    <button id="btn-adicionar-item" class="btn-add-item">
+                        <i data-lucide="plus"></i> Adicionar ao carrinho
+                    </button>
+                </div>
+            </div>
+
+            <!-- CARRINHO -->
+            <div class="painel-section carrinho-section">
+                <label class="painel-label">Carrinho <span id="carrinho-count" class="carrinho-badge">0</span></label>
+                <div id="carrinho-lista" class="carrinho-lista">
+                    <div class="carrinho-vazio" id="carrinho-vazio">
+                        <i data-lucide="shopping-cart"></i>
+                        <p>Nenhum item adicionado</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RODAPÉ DO PAINEL -->
+            <div class="painel-footer">
+                <button id="btn-confirmar" class="btn-confirmar" disabled>
+                    <i data-lucide="check-circle"></i> Confirmar Distribuição
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE AVISO -->
+    <div id="modal-aviso-container" class="modal-overlay">
+        <div id="caixa-aviso" class="modal-content">
+            <div id="aviso-icone"></div>
+            <h3 id="aviso-titulo">Atenção</h3>
+            <p id="aviso-texto"></p>
+            <div class="modal-footer">
+                <button id="btn-aviso-ok">OK</button>
+                <button id="btn-aviso-cancelar" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="distribuicoes.js" type="module" defer></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>
