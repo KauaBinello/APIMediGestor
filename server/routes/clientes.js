@@ -19,20 +19,20 @@ router.get("/", async (req, res) => {
     TO_CHAR(nascimento, 'YYYY-MM-DD') AS nascimento,
     endereco, numero_residencial, bairro, cidade, uf
   FROM clientes
-  WHERE cpf LIKE $1
+  WHERE ativo = true AND cpf LIKE $1
   ORDER BY id ASC LIMIT $2 OFFSET $3
 `;
       params = [`${cpfLimpo}%`, limit, offset];
     } else {
       nome = nome ? '%' + nome + '%' : '%';
       query = `
-        SELECT id, nome, cpf, telefone,
-          TO_CHAR(nascimento, 'YYYY-MM-DD') AS nascimento,
-          endereco, numero_residencial, bairro, cidade, uf
-        FROM clientes
-        WHERE nome ILIKE $1
-        ORDER BY id ASC LIMIT $2 OFFSET $3
-      `;
+  SELECT id, nome, cpf, telefone,
+    TO_CHAR(nascimento, 'YYYY-MM-DD') AS nascimento,
+    endereco, numero_residencial, bairro, cidade, uf
+  FROM clientes
+  WHERE ativo = true AND nome ILIKE $1
+  ORDER BY id ASC LIMIT $2 OFFSET $3
+`;
       params = [nome, limit, offset];
     }
 
@@ -135,18 +135,17 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id);
+    console.log("Tentando desativar cliente id:", id); // <- adiciona
     const result = await pool.query(
-      "DELETE FROM public.clientes WHERE id = $1 RETURNING *",
+      "UPDATE clientes SET ativo = false WHERE id = $1 RETURNING id",
       [id]
     );
-
+    console.log("Resultado:", result.rows); // <- adiciona
     if (result.rows.length === 0)
       return res.status(404).json({ error: "Cliente não encontrado" });
-
-    res.status(204).send(); // sucesso sem conteúdo
-
+    res.status(204).send();
   } catch (err) {
-    console.error(err);
+    console.error("ERRO NO DELETE CLIENTE:", err.message); // <- adiciona
     res.status(500).json({ error: "Erro ao deletar cliente" });
   }
 });

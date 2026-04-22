@@ -117,6 +117,18 @@ button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shado
 #btn-sair svg { width: 14px !important; height: 14px !important; }
 
 /* ===================== TOOLBAR ===================== */
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 70px;
+  width: auto;
+}
 .toolbar-container {
   display: flex; align-items: stretch; gap: 10px; margin-bottom: 20px;
 }

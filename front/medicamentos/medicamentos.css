@@ -106,6 +106,19 @@ button:disabled {
 /* ================================================= */
 /* ============= TOOLBAR =========================== */
 /* ================================================= */
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 70px;
+  width: auto;
+}
+
 .page-header {
   display: flex;
   align-items: center;

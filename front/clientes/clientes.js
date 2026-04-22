@@ -224,11 +224,14 @@ async function deletar(id) {
     if (confirma) {
         try {
             const resposta = await fetch(`${API}/${id}`, { method: "DELETE" });
+            console.log("Status:", resposta.status, "Ok:", resposta.ok); // <- adiciona isso
 
             if (resposta.ok) {
                 exibirDialogo("Sucesso", "Cliente excluído com sucesso!");
                 atualizarClientes();
             } else {
+                const erro = await resposta.json();
+                console.log("Erro retornado:", erro); // <- e isso
                 exibirDialogo("Não é possível excluir", "Este cliente possui distribuições vinculadas.");
             }
         } catch (erro) {
