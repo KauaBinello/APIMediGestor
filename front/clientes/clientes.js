@@ -103,7 +103,7 @@ function renderizarTabela(lista) {
                 <button class="btn-editar" style="background:none; color:var(--color-primary); border:none; cursor:pointer;">
                     <i data-lucide="edit-3"></i>
                 </button>
-                <button class="btn-deletar" style="background:none; color:#d9534f; border:none; cursor:pointer;">
+                <button class="btn-deletar" style="background:none; color:#e05252; border:none; cursor:pointer;">
                     <i data-lucide="trash-2"></i>
                 </button>
             </td>`;

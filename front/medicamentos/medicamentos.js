@@ -94,7 +94,7 @@ function renderizarTabela(lista) {
             <td>${dataExibicao}</td>
             <td style="text-align: center;">
                 <button class="btn-editar" style="background:none; color:var(--color-primary); padding:5px;"><i data-lucide="edit-3"></i></button>
-                <button class="btn-deletar" style="background:none; color:#d9534f; padding:5px;"><i data-lucide="trash-2"></i></button>
+                <button class="btn-deletar" style="background:none; color:#e05252; padding:5px;"><i data-lucide="trash-2"></i></button>
             </td>`;
         tr.querySelector('.btn-editar').onclick = () => modalEdicao(m.id);
         tr.querySelector('.btn-deletar').onclick = () => deletar(m.id);
