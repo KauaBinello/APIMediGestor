@@ -7,18 +7,18 @@
     <title>Distribuição de Medicamentos</title>
     <link rel="stylesheet" href="./distribuicoes.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body { visibility: hidden; }
-    </style>
-    <script>
-        if (localStorage.getItem('usuarioLogado') !== 'true') {
-            window.location.href = '../auth/login.html';
-        } else {
-            document.addEventListener("DOMContentLoaded", () => {
-                document.body.style.visibility = 'visible';
-            });
-        }
-    </script>
+<style>
+    body { visibility: hidden; }
+</style>
+<script>
+    if (localStorage.getItem('usuarioLogado') !== 'true') {
+        window.location.href = '../auth/login.html';
+    } else {
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector('style').remove(); /* remove a tag <style> inteira */
+        });
+    }
+</script>
 </head>
 
 <body>
