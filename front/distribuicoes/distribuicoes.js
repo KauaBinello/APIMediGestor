@@ -132,7 +132,7 @@ async function deletarDistribuicao(distribuicao_id) {
     if (!confirma) return;
 
     try {
-        const res = await fetch(`${API}/distribuicoes/${distribuicao_id}`, { method: 'DELETE' });
+        const res = await fetch(`${API}/${distribuicao_id}`, { method: 'DELETE' });
         if (res.ok) {
             atualizarTabela("inicio");
             exibirDialogo("Sucesso", "Distribuição excluída.");
