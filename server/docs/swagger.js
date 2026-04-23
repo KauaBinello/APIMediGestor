@@ -1,6 +1,5 @@
 const swaggerJsDoc = require("swagger-jsdoc");
 
-// Configuração do Swagger
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -10,13 +9,22 @@ const options = {
       description:
         "API REST construída com Express e PostgreSQL para listar, criar, atualizar e remover medicamentos, usuários, clientes e distribuições.",
     },
-    servers: [{ url: "http://localhost:3000" }],
+    servers: [
+      {
+        // URL de produção (Render)
+        url: "https://apimedigestor.onrender.com",
+        description: "Servidor de Produção"
+      },
+      {
+        // URL local para desenvolvimento
+        url: "http://localhost:3000",
+        description: "Servidor Local"
+      }
+    ],
   },
-  apis: ["./routes/*.js"], // Caminho para os comentários JSDoc das rotas
+  apis: ["./routes/*.js"], 
 };
 
-// Gerar a especificação
 const swaggerSpec = swaggerJsDoc(options);
 
-// Exportar para o server.js usar
 module.exports = swaggerSpec;
