@@ -32,7 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById('btn-nova-distribuicao').addEventListener('click', abrirPainel);
-    document.getElementById('btn-fechar-painel').addEventListener('click', fecharPainel);
+    const btn = document.getElementById('btn-fechar-painel');
+    if (btn) {
+        btn.addEventListener('click', fecharPainel);
+    }
     document.getElementById('painel-overlay').addEventListener('click', (e) => {
         if (e.target === document.getElementById('painel-overlay')) fecharPainel();
     });
