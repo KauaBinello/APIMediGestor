@@ -1,7 +1,14 @@
 const express = require("express");
 require("dotenv").config({ path: __dirname + "/.env" });
-
 const cors = require('cors');
+const app = express();
+
+// Configuração do CORS
+app.use(cors({
+  origin: 'https://apimedigestor.onrender.com', // Substitua pela URL real do seu front na Vercel
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 const medicamentosRouter = require("./routes/medicamentos");
 const clientesRouter = require("./routes/clientes");
@@ -9,9 +16,6 @@ const usuariosRouter = require("./routes/usuarios");
 const distribuicoesRouter = require("./routes/distribuicoes");
 
 const app = express();
-app.use(cors({
-  origin: 'https://seu-projeto.vercel.app'
-}));
 app.use(express.json());
 
 
