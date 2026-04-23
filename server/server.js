@@ -9,7 +9,9 @@ const usuariosRouter = require("./routes/usuarios");
 const distribuicoesRouter = require("./routes/distribuicoes");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://seu-projeto.vercel.app'
+}));
 app.use(express.json());
 
 
