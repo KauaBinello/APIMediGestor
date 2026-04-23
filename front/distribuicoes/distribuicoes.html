@@ -6,13 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Distribuição de Medicamentos</title>
 
-    <!-- CSS -->
     <link rel="stylesheet" href="./distribuicoes.css">
-
-    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Validação de login -->
     <script>
         if (localStorage.getItem('usuarioLogado') !== 'true') {
             window.location.href = '../auth/login.html';
@@ -39,9 +35,9 @@
     <div class="toolbar-container">
         <input id="campo-pesquisa" placeholder="🔎 Buscar distribuição por cliente ou medicamento...">
         <div class="button-group">
-            <button id="btnPaginacaoMenos" title="Anterior"><i data-lucide="chevron-left"></i></button>
-            <button id="btnPaginacao" title="Próximo"><i data-lucide="chevron-right"></i></button>
-            <button id="btn-nova-distribuicao"><i data-lucide="plus-circle"></i> Nova Distribuição</button>
+            <button id="btnPaginacaoMenos"><i data-lucide="chevron-left"></i></button>
+            <button id="btnPaginacao"><i data-lucide="chevron-right"></i></button>
+            <button id="btn-nova-distribuicao"><i data-lucide="plus-circle"></i> Nova</button>
         </div>
     </div>
 
@@ -54,25 +50,34 @@
                 <th>Medicamentos</th>
                 <th>Data</th>
                 <th>Usuário</th>
-                <th style="text-align:center;">Ações</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody id="corpo-tabela"></tbody>
     </table>
 
-    <!-- PAINEL -->
+    <!-- PAINEL COMPLETO -->
     <div id="painel-overlay" class="painel-overlay">
         <div class="painel-lateral">
 
             <div class="painel-header">
-                <h3><i data-lucide="package-plus"></i> Nova Distribuição</h3>
-                <button class="btn-fechar-painel" id="btn-fechar-painel">
-                    <i data-lucide="x"></i>
-                </button>
+                <h3>Nova Distribuição</h3>
+                <button id="btn-fechar-painel">X</button>
             </div>
 
-            <!-- resto mantido igual -->
-            <!-- (não mexi aqui porque não tem erro estrutural) -->
+            <input id="busca-cliente" placeholder="Cliente">
+            <div id="lista-clientes"></div>
+
+            <input id="busca-medicamento" placeholder="Medicamento">
+            <div id="lista-medicamentos"></div>
+
+            <input id="input-quantidade" type="number" value="1">
+
+            <button id="btn-adicionar-item">Adicionar</button>
+
+            <div id="carrinho-lista"></div>
+
+            <button id="btn-confirmar">Confirmar</button>
 
         </div>
     </div>
@@ -80,23 +85,15 @@
     <!-- MODAL -->
     <div id="modal-aviso-container" class="modal-overlay">
         <div id="caixa-aviso" class="modal-content">
-            <div id="aviso-icone"></div>
-            <h3 id="aviso-titulo">Atenção</h3>
+            <h3 id="aviso-titulo"></h3>
             <p id="aviso-texto"></p>
-            <div class="modal-footer">
-                <button id="btn-aviso-ok">OK</button>
-                <button id="btn-aviso-cancelar" class="btn-cancelar">Cancelar</button>
-            </div>
+            <button id="btn-aviso-ok">OK</button>
+            <button id="btn-aviso-cancelar">Cancelar</button>
         </div>
     </div>
 
-    <!-- JS -->
     <script src="./distribuicoes.js" type="module" defer></script>
-
-    <script>
-        lucide.createIcons();
-    </script>
+    <script>lucide.createIcons();</script>
 
 </body>
-
 </html>
