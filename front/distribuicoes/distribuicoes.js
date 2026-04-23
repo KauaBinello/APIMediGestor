@@ -7,6 +7,10 @@ if (localStorage.getItem('usuarioLogado') !== 'true') {
 }
 
 const API = 'https://apimedigestor.onrender.com/distribuicoes';
+const API_CLIENTES = 'https://apimedigestor.onrender.com/clientes';
+const API_MEDICAMENTOS = 'https://apimedigestor.onrender.com/medicamentos';
+const API_USUARIOS = 'https://apimedigestor.onrender.com/usuarios';
+
 const limit = 12;
 let offset = 0;
 
@@ -193,7 +197,7 @@ async function buscarClientes() {
     const param = eCPF ? `cpf=${encodeURIComponent(termo)}` : `nome=${encodeURIComponent(termo)}`;
 
     try {
-        const res = await fetch(`${API}/clientes?${param}&limit=8`);
+        const res = await fetch(`${API_CLIENTES}?${param}&limit=8`);
         const clientes = await res.json();
         renderizarDropdownClientes(clientes);
     } catch (err) {
@@ -248,7 +252,7 @@ async function buscarMedicamentos() {
     }
 
     try {
-        const res = await fetch(`${API}/medicamentos?nome=${encodeURIComponent(termo)}&limit=6`);
+        const res = await fetch(`${API_MEDICAMENTOS}?nome=${encodeURIComponent(termo)}&limit=6`);
         const meds = await res.json();
         renderizarDropdownMeds(meds);
     } catch (err) {
@@ -409,7 +413,7 @@ async function confirmarDistribuicao() {
     btn.disabled = true;
 
     try {
-        const res = await fetch(`${API}/distribuicoes`, {
+        const res = await fetch(`${API}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -441,7 +445,7 @@ async function getUsuarioId() {
     const nomeUsuario = localStorage.getItem('nomeUsuario');
     if (!nomeUsuario) return null;
     try {
-        const res = await fetch(`${API}/usuarios?nome=${encodeURIComponent(nomeUsuario)}&limit=1`);
+        const res = await fetch(`${API_USUARIOS}?nome=${encodeURIComponent(nomeUsuario)}&limit=1`);
         const dados = await res.json();
         return dados.length > 0 ? dados[0].id : null;
     } catch {
