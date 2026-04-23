@@ -4,7 +4,7 @@ if (localStorage.getItem('usuarioLogado') !== 'true') {
     // Para a execução de todo o resto do script
     throw new Error("Acesso não autorizado");
 }
-const API = 'https://api-medi-gestor.onrender.com';
+const API = 'https://apimedigestor.onrender.com';
 const limit = 12;
 let offset = 0;
 let idEmEdicao = null;
