@@ -6,7 +6,7 @@ if (localStorage.getItem('usuarioLogado') !== 'true') {
     throw new Error("Acesso não autorizado");
 }
 
-const API = 'https://apimedigestor.onrender.com/';
+const API = 'https://apimedigestor.onrender.com/distribuicoes';
 const limit = 12;
 let offset = 0;
 
