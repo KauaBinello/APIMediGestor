@@ -9,7 +9,7 @@ if (localStorage.getItem('perfilUsuario') !== 'Administrador') {
     window.location.href = '../menu/menu.html'; // Chuta de volta pro menu
 }
 
-const API = 'https://apimedigestor.onrender.com';
+const API = 'https://apimedigestor.onrender.com/usuarios';
 const limit = 12;
 let offset = 0;
 let idEmEdicao = null;

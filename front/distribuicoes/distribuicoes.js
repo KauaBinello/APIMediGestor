@@ -6,7 +6,7 @@ if (localStorage.getItem('usuarioLogado') !== 'true') {
     throw new Error("Acesso não autorizado");
 }
 
-const API = 'https://apimedigestor.onrender.com';
+const API = 'https://apimedigestor.onrender.com/distribuicoes';
 const limit = 12;
 let offset = 0;
 
@@ -75,7 +75,7 @@ async function atualizarTabela(acao = "") {
     if (acao === "menos") offset = Math.max(0, offset - limit);
 
     try {
-        const res = await fetch(`${API}/distribuicoes?limit=${limit}&offset=${offset}`);
+        const res = await fetch(`${API}?limit=${limit}&offset=${offset}`);
         const dados = await res.json();
 
         if (dados.length === 0 && acao === "mais") { offset -= limit; return; }
