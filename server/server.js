@@ -1,23 +1,33 @@
 const express = require("express");
-require("dotenv").config({ path: __dirname + "/.env" });
+const path = require("path"); // Import necessário para o path
 const cors = require('cors');
+
+// Configura o dotenv - Removi o __dirname se o .env estiver na raiz do projeto
+require("dotenv").config(); 
+
 const app = express();
 
-// Configuração do CORS
+// =====================
+// Middlewares
+// =====================
+
+// CONFIGURAÇÃO DO CORS: 
+// IMPORTANTE: Aqui deve ser a URL da VERCEL, não a do Render.
 app.use(cors({
-  origin: 'https://apimedigestor.onrender.com', // Substitua pela URL real do seu front na Vercel
+  origin: '*', // Dica: Use '*' temporariamente para testar se funciona, depois troque pela URL da Vercel
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+app.use(express.json());
+
+// =====================
+// Importação de Rotas
+// =====================
 const medicamentosRouter = require("./routes/medicamentos");
 const clientesRouter = require("./routes/clientes");
 const usuariosRouter = require("./routes/usuarios");
 const distribuicoesRouter = require("./routes/distribuicoes");
-
-const app = express();
-app.use(express.json());
-
 
 // =====================
 // Rotas principais
@@ -29,14 +39,16 @@ app.use("/distribuicoes", distribuicoesRouter);
 
 // Rota raiz
 app.get("/", (req, res) => {
-  res.send("🌎 API de Medicamentos rodando! Acesse a documentação em /api-docs");
+  res.send("🌎 API de Medicamentos rodando!");
 });
 
 // =====================
 // Servidor
 // =====================
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+
+// No Render, é importante não fixar o IP '0.0.0.0' às vezes causa conflito, 
+// deixe o servidor ouvir na porta que o Render providenciar.
+app.listen(PORT, () => {
+    console.log(`Servidor rodando com sucesso na porta ${PORT}`);
 });
