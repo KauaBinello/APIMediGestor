@@ -5,20 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Distribuição de Medicamentos</title>
-<link rel="stylesheet" href="/distribuicoes/distribuicoes.css">
+    <link rel="stylesheet" href="./distribuicoes.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body {
-            display: none;
-        }
+        body { visibility: hidden; }
     </style>
     <script>
         if (localStorage.getItem('usuarioLogado') !== 'true') {
             window.location.href = '../auth/login.html';
         } else {
-            document.documentElement.style.display = 'block';
             document.addEventListener("DOMContentLoaded", () => {
-                document.body.style.display = 'block';
+                document.body.style.visibility = 'visible';
             });
         }
     </script>
@@ -39,7 +36,7 @@
             <button id="btn-sair"><i data-lucide="log-out"></i> Sair</button>
         </div>
     </div>
-
+ 
     <!-- TOOLBAR -->
     <div class="toolbar-container">
         <input id="campo-pesquisa" placeholder="🔎 Buscar distribuição por cliente ou medicamento...">
@@ -164,7 +161,7 @@
         </div>
     </div>
 
-<script src="/distribuicoes/distribuicoes.js" type="module" defer></script>
+<script src="./distribuicoes.js" type="module" defer></script>
     <script>lucide.createIcons();</script>
 </body>
 
