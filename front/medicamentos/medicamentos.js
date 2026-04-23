@@ -59,11 +59,26 @@ async function atualizarMedicamentos(acao = "") {
     try {
         const resposta = await fetch(`${API}?limit=${limit}&offset=${offset}`);
         const dados = await resposta.json();
-        if (dados.length === 0 && acao === "mais") { offset -= limit; return; }
-        renderizarTabela(dados);
+
+        // LOG PARA DEBUG: Abre o F12 e veja o que está chegando aqui
+        console.log("Dados recebidos da API:", dados);
+
+        // Se o servidor mandou um objeto com os dados dentro (ex: dados.medicamentos)
+        // ou se mandou a lista direta, a gente garante que seja uma Array
+        const listaFinal = Array.isArray(dados) ? dados : (dados.medicamentos || []);
+
+        if (listaFinal.length === 0 && acao === "mais") { 
+            offset -= limit; 
+            return; 
+        }
+
+        renderizarTabela(listaFinal);
+
         document.getElementById("btnPaginacaoMenos").disabled = offset === 0;
-        document.getElementById("btnPaginacao").disabled = dados.length < limit;
-    } catch (err) { console.error(err); }
+        document.getElementById("btnPaginacao").disabled = listaFinal.length < limit;
+    } catch (err) { 
+        console.error("Erro ao buscar medicamentos:", err); 
+    }
 }
 
 function renderizarTabela(lista) {
