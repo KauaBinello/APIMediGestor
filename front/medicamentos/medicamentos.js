@@ -164,9 +164,25 @@ async function salvarEdicao() {
 }
 
 async function deletar(id) {
-    if (await exibirDialogo("Confirmar", "Excluir?", "confirm")) {
-        await fetch(`${API}/${id}`, { method: "DELETE" });
-        atualizarMedicamentos();
+    const confirma = await exibirDialogo("Confirmar", "Deseja realmente excluir este medicamento?", "confirm");
+
+    if (confirma) {
+        try {
+            const resposta = await fetch(`${API}/${id}`, { method: "DELETE" });
+            console.log("Status:", resposta.status, "Ok:", resposta.ok); // <- adiciona isso
+
+            if (resposta.ok) {
+                exibirDialogo("Sucesso", "Medicamento excluído com sucesso!");
+                atualizarMedicamentos();
+            } else {
+                const erro = await resposta.json();
+                console.log("Erro retornado:", erro); // <- e isso
+                exibirDialogo("Não é possível excluir", "Este medicamento possui distribuições vinculadas.");
+            }
+        } catch (erro) {
+            console.error("Erro ao deletar:", erro);
+            exibirDialogo("Erro", "Ocorreu um erro interno.");
+        }
     }
 }
 
