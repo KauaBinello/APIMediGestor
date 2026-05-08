@@ -106,12 +106,19 @@ function novoUsuario() {
     idEmEdicao = null;
     document.getElementById("tituloModal").innerText = "Novo Usuário";
     limparCampos();
+    
+    // Muda o placeholder pra cadastro novo
+    document.getElementById("editSenha").placeholder = "Digite a senha";
+    
     modal.style.display = "flex";
 }
 
 async function modalEdicao(id) {
     idEmEdicao = id;
     document.getElementById("tituloModal").innerText = "Editar Usuário";
+
+    // Muda o placeholder pra edição
+    document.getElementById("editSenha").placeholder = "Deixe vazio para manter a senha atual";
 
     try {
         const res = await fetch(`${API}/${id}`);
