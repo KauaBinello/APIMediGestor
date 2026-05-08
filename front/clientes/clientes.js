@@ -177,7 +177,7 @@ async function salvarEdicao() {
         uf: document.getElementById("editUf").value.toUpperCase().trim()
     };
 
-    if (!cliente.nome || !cliente.cpf) {
+    if (!cliente.nome || !cliente.nascimento || !cliente.cpf) {
         return exibirDialogo("Campo Obrigatório", "O nome, CPF e data de nascimento são obrigatórios.");
     }
 
