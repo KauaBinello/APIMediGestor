@@ -144,7 +144,7 @@ async function salvarEdicao() {
         validade: document.getElementById("editValidade").value
     };
 
-    if (!med.nome || !med.concentracao || isNaN(med.saldo) || !med.validade) {
+    if (!med.nome || !med.concentracao || !quantidade_embalagem || isNaN(med.saldo) || !med.validade) {
         return exibirDialogo("Atenção", "Preencha todos os campos.");
     }
 
