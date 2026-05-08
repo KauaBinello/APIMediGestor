@@ -178,7 +178,7 @@ async function salvarEdicao() {
     };
 
     if (!cliente.nome || !cliente.cpf) {
-        return exibirDialogo("Campo Obrigatório", "O nome e o CPF são obrigatórios.");
+        return exibirDialogo("Campo Obrigatório", "O nome, CPF e data de nascimento são obrigatórios.");
     }
 
     try {
