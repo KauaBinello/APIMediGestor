@@ -106,10 +106,10 @@ function novoUsuario() {
     idEmEdicao = null;
     document.getElementById("tituloModal").innerText = "Novo Usuário";
     limparCampos();
-    
+
     // Muda o placeholder pra cadastro novo
     document.getElementById("editSenha").placeholder = "Digite a senha";
-    
+
     modal.style.display = "flex";
 }
 
@@ -147,6 +147,13 @@ async function salvarEdicao() {
 
     if (!usuario.nome || !usuario.login || !usuario.email) {
         return exibirDialogo("Atenção", "Nome, Email e Login são obrigatórios.");
+    }
+
+    // ✅ VALIDAÇÃO CONDICIONAL AQUI
+    // Se idEmEdicao for NULL = novo usuário → senha obrigatória
+    // Se idEmEdicao tiver valor = edição → senha opcional
+    if (!idEmEdicao && !usuario.senha) {
+        return exibirDialogo("Atenção", "A senha é obrigatória para novos usuários.");
     }
 
     try {
