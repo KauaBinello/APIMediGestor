@@ -67,17 +67,17 @@ async function atualizarMedicamentos(acao = "") {
         // ou se mandou a lista direta, a gente garante que seja uma Array
         const listaFinal = Array.isArray(dados) ? dados : (dados.medicamentos || []);
 
-        if (listaFinal.length === 0 && acao === "mais") { 
-            offset -= limit; 
-            return; 
+        if (listaFinal.length === 0 && acao === "mais") {
+            offset -= limit;
+            return;
         }
 
         renderizarTabela(listaFinal);
 
         document.getElementById("btnPaginacaoMenos").disabled = offset === 0;
         document.getElementById("btnPaginacao").disabled = listaFinal.length < limit;
-    } catch (err) { 
-        console.error("Erro ao buscar medicamentos:", err); 
+    } catch (err) {
+        console.error("Erro ao buscar medicamentos:", err);
     }
 }
 
@@ -144,7 +144,7 @@ async function salvarEdicao() {
         validade: document.getElementById("editValidade").value
     };
 
-    if (!med.nome || !med.concentracao || isNaN(med.saldo) || !med.validade) {
+    if (!med.nome || !med.concentracao || !med.quantidade_embalagem || isNaN(med.saldo) || !med.validade) {
         return exibirDialogo("Atenção", "Preencha todos os campos.");
     }
 
