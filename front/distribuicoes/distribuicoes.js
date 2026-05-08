@@ -129,25 +129,22 @@ function renderizarTabela(lista) {
 }
 
 async function filtrarTabela() {
-    // Recarrega do início quando busca muda
+    const termo = document.getElementById('campo-pesquisa').value.trim();
     offset = 0;
-    atualizarTabela("inicio");
-}
-
-async function deletarDistribuicao(distribuicao_id) {
-    const confirma = await exibirDialogo("Confirmar", "Excluir toda essa distribuição?", "confirm");
-    if (!confirma) return;
-
+    
     try {
-        const res = await fetch(`${API}/${distribuicao_id}`, { method: 'DELETE' });
-        if (res.ok) {
-            atualizarTabela("inicio");
-            exibirDialogo("Sucesso", "Distribuição excluída.");
-        } else {
-            exibirDialogo("Erro", "Não foi possível excluir.");
-        }
+        const url = termo 
+            ? `${API}?cliente=${encodeURIComponent(termo)}&limit=${limit}&offset=${offset}`
+            : `${API}?limit=${limit}&offset=${offset}`;
+        
+        const res = await fetch(url);
+        const dados = await res.json();
+        
+        renderizarTabela(dados);
+        document.getElementById('btnPaginacaoMenos').disabled = offset === 0;
+        document.getElementById('btnPaginacao').disabled = dados.length < limit;
     } catch (err) {
-        exibirDialogo("Erro", "Erro de conexão.");
+        console.error("Erro ao filtrar distribuições:", err);
     }
 }
 

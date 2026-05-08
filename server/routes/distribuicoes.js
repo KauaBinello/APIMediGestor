@@ -6,10 +6,12 @@ const router = express.Router();
 // LISTAR DISTRIBUIÇÕES (Com JOIN para trazer nomes em vez de apenas IDs)
 router.get("/", async (req, res) => {
   try {
-    let { offset, limit } = req.query;
+    let { cliente, offset, limit } = req.query;
     offset = parseInt(offset) || 0;
     limit = parseInt(limit) || 16;
-
+    
+    const nomeCliente = cliente ? `%${cliente}%` : '%';
+    
     const query = `
       SELECT
         d.distribuicao_id,
@@ -27,12 +29,12 @@ router.get("/", async (req, res) => {
       JOIN medicamentos m ON d.medicamento_id = m.id
       JOIN usuarios u ON d.usuario_id = u.id
       JOIN clientes c ON d.cliente_id = c.id
+      WHERE c.nome ILIKE $1
       GROUP BY d.distribuicao_id, u.nome, c.nome
       ORDER BY d.distribuicao_id DESC
-      LIMIT $1 OFFSET $2
+      LIMIT $2 OFFSET $3
     `;
-
-    const result = await pool.query(query, [limit, offset]);
+    const result = await pool.query(query, [nomeCliente, limit, offset]);
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: "Erro ao listar distribuições", detalhes: err.message });
