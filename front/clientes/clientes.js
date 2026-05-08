@@ -169,7 +169,7 @@ async function salvarEdicao() {
         nome: document.getElementById("editNome").value.trim(),
         cpf: document.getElementById("editCpf").value.trim(),
         telefone: document.getElementById("editTelefone").value.trim(),
-        nascimento: document.getElementById("editNascimento").value,
+        nascimento: document.getElementById("editNascimento").value, // Captura a data
         endereco: document.getElementById("editEndereco").value.trim(),
         numero_residencial: document.getElementById("editNumero").value.trim(),
         bairro: document.getElementById("editBairro").value.trim(),
@@ -177,20 +177,19 @@ async function salvarEdicao() {
         uf: document.getElementById("editUf").value.toUpperCase().trim()
     };
 
-    if (!cliente.nome || !cliente.nascimento || !cliente.cpf) {
+    // Validação: verifica se nome, cpf e nascimento estão preenchidos
+    if (!cliente.nome || !cliente.cpf || !cliente.nascimento) {
         return exibirDialogo("Campo Obrigatório", "O nome, CPF e data de nascimento são obrigatórios.");
     }
 
     try {
-        // Busca por CPF (Lidando com a falha de filtro da API)
+        // Busca por CPF para evitar duplicidade
         const resCheck = await fetch(`${API}?cpf=${cliente.cpf}`);
         const dadosDB = await resCheck.json();
 
-        // Procura manualmente no array retornado para ter certeza do conflito
         const conflitoCpf = dadosDB.find(c => String(c.cpf) === String(cliente.cpf));
 
         if (conflitoCpf) {
-            // Se for novo OU se for edição de um ID diferente do que tem o CPF
             if (!idEmEdicao || (idEmEdicao && conflitoCpf.id != idEmEdicao)) {
                 return exibirDialogo("Atenção", `O CPF ${cliente.cpf} já pertence a ${conflitoCpf.nome}.`);
             }
@@ -210,6 +209,8 @@ async function salvarEdicao() {
             atualizarClientes();
             exibirDialogo("Sucesso", "Cliente salvo com sucesso!");
         } else {
+            const erroApi = await res.json();
+            console.error("Erro da API:", erroApi);
             throw new Error();
         }
     } catch (erro) {
